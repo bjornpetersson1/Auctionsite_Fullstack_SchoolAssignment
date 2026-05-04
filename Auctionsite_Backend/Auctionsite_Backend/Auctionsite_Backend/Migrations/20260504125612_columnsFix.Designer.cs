@@ -4,6 +4,7 @@ using Auctionsite_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Auctionsite_Backend.Migrations
 {
     [DbContext(typeof(AuctionSiteDbContext))]
-    partial class AuctionSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260504125612_columnsFix")]
+    partial class columnsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +33,7 @@ namespace Auctionsite_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<float?>("AskingPrice")
+                    b.Property<float>("AskingPrice")
                         .HasColumnType("real");
 
                     b.Property<string>("Description")
@@ -39,9 +42,6 @@ namespace Auctionsite_Backend.Migrations
 
                     b.Property<DateTime>("EndDateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");

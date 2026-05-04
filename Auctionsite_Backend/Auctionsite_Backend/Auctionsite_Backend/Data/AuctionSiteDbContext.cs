@@ -1,10 +1,14 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Auctionsite_Backend.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auctionsite_Backend.Data
 {
     public class AuctionSiteDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Bid> Bids { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
 
         public AuctionSiteDbContext()
         {
