@@ -1,0 +1,42 @@
+﻿Auktion
+
+
+Db-struktur
+	Användare
+		Kopplad till både auktioner och bud
+			one to many -> bud
+			one to many -> auktioner 
+		Id
+		UserName
+		Email
+		PasswordHash
+		
+		FKlista? budId
+		FKlista? auktionerId
+	
+	Auktioner
+		Kopplad till både användare och bud
+			many to one -> användare (ägare av auktionen)
+			one to many -> bud
+		Id
+		Title
+		Description
+		AskingPrice
+		StartDateTime
+		EndDateTime
+
+		FK UserId
+		Fklista? BudId
+	
+	Bud
+		Kopplad till både användare och auktioner
+			many to one -> användare
+			many to one -> auktioner
+
+		Id
+		Amount
+
+		FK UserId
+		FK AuktionId
+
+		
