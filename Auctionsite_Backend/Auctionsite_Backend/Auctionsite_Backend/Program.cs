@@ -5,6 +5,8 @@ using Auctionsite_Backend.Data.Interface;
 using Auctionsite_Backend.Data.Repo;
 using Auctionsite_Backend.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,20 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+builder.Services.AddScoped<IJWTservice, JWTservice>();
+builder.Services.AddScoped<IJWTRepo, JWTrepo>();
+
+builder.Services.AddAuthentication("Bearer")
+     .AddJwtBearer(options =>
+     {
+         options.TokenValidationParameters = new TokenValidationParameters
+         {
+             ValidateIssuerSigningKey = true,
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"])),
+             ValidateIssuer = false,
+             ValidateAudience = false
+         };
+     });
 
 var app = builder.Build();
 
@@ -24,6 +40,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.UseSwagger();

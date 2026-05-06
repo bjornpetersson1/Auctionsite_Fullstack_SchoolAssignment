@@ -9,6 +9,7 @@ namespace Auctionsite_Backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Auction> Auctions { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public AuctionSiteDbContext()
         {

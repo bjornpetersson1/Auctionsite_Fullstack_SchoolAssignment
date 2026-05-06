@@ -1,4 +1,5 @@
-﻿using Auctionsite_Backend.Data.DTO;
+﻿using Auctionsite_Backend.Core.Interface;
+using Auctionsite_Backend.Data.DTO;
 using Auctionsite_Backend.Data.Interface;
 using Auctionsite_Backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,13 @@ namespace Auctionsite_Backend.Data.Repo
     public class AuthRepo : IAuthRepo
     {
         private readonly AuctionSiteDbContext dbContext;
+        private readonly IJWTservice _jwtService;
 
-        public AuthRepo(AuctionSiteDbContext dbContext)
+        public AuthRepo(AuctionSiteDbContext dbContext, IJWTservice jwtService)
         {
             this.dbContext = dbContext;
+            _jwtService = jwtService;
         }
-
 
         public async Task<UserResponseDTO?> Register(UserRequestDTO userRequestDTO)
         {
@@ -68,8 +70,21 @@ namespace Auctionsite_Backend.Data.Repo
                 {
                     if(BC.Verify(loginRequestDTO.Password, user.PasswordHash))
                     {
-                        response.LoginSuccess = true;
-                        response.ResponseMessage = "Login successful";
+                        if(!user.IsActive)
+                        {
+                            response.LoginSuccess = false;
+                            response.ResponseMessage = "Account is deactivated";
+                        }
+                        else
+                        {
+                            response.LoginSuccess = true;
+                            response.Id = user.Id;
+                            response.Email = user.Email;
+                            response.Role = user.Role;
+                            response.AccessToken = _jwtService.GenerateAccessToken(user);
+                            response.RefreshToken = await _jwtService.GenerateRefreshToken(user);
+                            response.ResponseMessage = "Login successful";
+                        }
                     }
                     else
                     {

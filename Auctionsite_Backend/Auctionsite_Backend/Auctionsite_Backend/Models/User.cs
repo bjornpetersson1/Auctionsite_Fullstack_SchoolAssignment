@@ -12,6 +12,7 @@ namespace Auctionsite_Backend.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string Role { get; set; }
+        public bool IsActive { get; set; }
         public List<Auction>? Auctions { get; set; }
         public List<Bid>? Bids { get; set; }
     }

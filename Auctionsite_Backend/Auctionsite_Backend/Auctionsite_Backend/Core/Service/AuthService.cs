@@ -15,7 +15,7 @@ namespace Auctionsite_Backend.Core.Service
 
         public async Task<UserResponseDTO?> Register(UserRequestDTO userRequestDTO)
         {
-            return  await _authRepo.Register(userRequestDTO);
+            return await _authRepo.Register(userRequestDTO);
         }
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)

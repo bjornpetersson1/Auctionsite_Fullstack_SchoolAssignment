@@ -36,7 +36,7 @@ namespace Auctionsite_Backend.Controllers
             var response = await _authService.Login(loginRequestDTO);
             if (response.LoginSuccess)
             {
-                return Ok(response.ResponseMessage);
+                return Ok(new {message = response.ResponseMessage, accessToken = response.AccessToken, refreshToken = response.RefreshToken, email = response.Email});
             }
             else return BadRequest(response.ResponseMessage);
         }
