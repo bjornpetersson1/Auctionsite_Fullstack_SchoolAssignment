@@ -40,3 +40,6 @@ Db-struktur
 		FK AuktionId
 
 		
+
+Add created at??? på users
+Ändra så registerresponse innehåller custom felmeddelande per fel?
