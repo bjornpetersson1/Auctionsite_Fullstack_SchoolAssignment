@@ -26,7 +26,9 @@ namespace Auctionsite_Backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAuctionById(int id)
         {
-            return Ok();
+            var response = await _auctionsService.GetAuctionById(id);
+            if (response == null) return BadRequest(response);
+            else return Ok(response);
         }
 
         [Authorize("UserOrAdmin")]

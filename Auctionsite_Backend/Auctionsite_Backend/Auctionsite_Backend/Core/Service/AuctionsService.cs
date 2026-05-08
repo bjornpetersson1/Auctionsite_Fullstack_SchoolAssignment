@@ -17,6 +17,11 @@ namespace Auctionsite_Backend.Core.Service
             var response = await _auctionsRepo.GetAuctionsList();
             return response;
         }
+        public async Task<AuctionDTO?> GetAuctionById(int id)
+        {
+            var response = await _auctionsRepo.GetAuctionById(id);
+            return response;
+        }
 
         public Task<CreateNewAuctionResponseDTO> CreateNewAuction()
         {
@@ -33,10 +38,6 @@ namespace Auctionsite_Backend.Core.Service
             throw new NotImplementedException();
         }
 
-        public Task<AuctionDTO> GetAuctionById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

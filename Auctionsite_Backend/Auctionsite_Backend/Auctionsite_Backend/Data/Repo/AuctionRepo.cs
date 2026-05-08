@@ -23,6 +23,7 @@ namespace Auctionsite_Backend.Data.Repo
                 {
                     dto.Auctions.Add(new AuctionDTO
                     {
+                        Id = auction.Id,
                         Title = auction.Title,
                         Description = auction.Description,
                         AskingPrice = auction.AskingPrice,
@@ -34,6 +35,21 @@ namespace Auctionsite_Backend.Data.Repo
                 return dto;
             }
             else return new AuctionListDTO();
+        }
+        public async Task<AuctionDTO?> GetAuctionById(int id)
+        {
+            var response = await _dbContext.Auctions.FirstOrDefaultAsync(a => a.Id == id);
+            if(response == null) return null;
+            return new AuctionDTO()
+            {
+                Id = response.Id,
+                Title = response.Title,
+                Description = response.Description,
+                AskingPrice = response.AskingPrice,
+                ImageUrl = response.ImageUrl,
+                StartDateTime = response.StartDateTime,
+                EndDateTime = response.EndDateTime,
+            };
         }
         public Task<CreateNewAuctionResponseDTO> CreateNewAuction()
         {
@@ -50,10 +66,6 @@ namespace Auctionsite_Backend.Data.Repo
             throw new NotImplementedException();
         }
 
-        public Task<AuctionDTO> GetAuctionById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }
