@@ -1,6 +1,8 @@
 ﻿using Auctionsite_Backend.Data.DTO;
 using Auctionsite_Backend.Data.Interface;
+using Auctionsite_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Auctionsite_Backend.Data.Repo
 {
@@ -51,9 +53,48 @@ namespace Auctionsite_Backend.Data.Repo
                 EndDateTime = response.EndDateTime,
             };
         }
-        public Task<CreateNewAuctionResponseDTO> CreateNewAuction()
+        public async Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId )
         {
-            throw new NotImplementedException();
+            if(auction.StartDateTime > auction.EndDateTime)
+            {
+                return new CreateNewAuctionResponseDTO()
+                { Message = "Start time can't be after end time" };
+            }
+
+            if (auction.StartDateTime < DateTime.UtcNow)
+            {
+                return new CreateNewAuctionResponseDTO
+                { Message = "Start time can't be in the past" };
+
+            }
+          
+            var newAuction = new Auction()
+            {
+                Title = auction.Title,
+                Description = auction.Description,
+                AskingPrice = auction.AskingPrice,
+                ImageUrl = auction.ImageUrl,
+                StartDateTime = auction.StartDateTime,
+                EndDateTime = auction.EndDateTime,
+                UserId = userId,
+            };
+            await _dbContext.Auctions.AddAsync(newAuction);
+            var rowsSaved = await _dbContext.SaveChangesAsync();
+            if (rowsSaved > 0)
+            {
+                return new CreateNewAuctionResponseDTO
+                { 
+                    Message = "success",
+                    CreatedAt = DateTime.UtcNow,
+                };
+            }
+            else
+            {
+                return new CreateNewAuctionResponseDTO
+                {
+                    Message = "Something went wrong",
+                };
+            }
         }
 
         public Task<DeleteAuctionResponseDTO> DeleteAuction(int id)

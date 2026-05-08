@@ -8,7 +8,7 @@ namespace Auctionsite_Backend.Core.Interface
     {
         Task<AuctionListDTO> GetAuctionsList();
         Task<AuctionDTO?> GetAuctionById(int id);
-        Task<CreateNewAuctionResponseDTO> CreateNewAuction();
+        Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId);
         Task<EditAuctionResponseDTO> EditAuction(int id);
         Task<DeleteAuctionResponseDTO> DeleteAuction(int id);
     }

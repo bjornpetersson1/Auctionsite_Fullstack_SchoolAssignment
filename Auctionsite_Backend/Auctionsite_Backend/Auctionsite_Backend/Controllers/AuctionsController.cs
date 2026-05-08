@@ -1,7 +1,9 @@
 ﻿using Auctionsite_Backend.Core.Interface;
+using Auctionsite_Backend.Data.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Auctionsite_Backend.Controllers
 {
@@ -33,10 +35,14 @@ namespace Auctionsite_Backend.Controllers
 
         [Authorize("UserOrAdmin")]
         [HttpPost]
-        public async Task<IActionResult> CreateNewAuction()
+        public async Task<IActionResult> CreateNewAuction([FromBody] CreateNewAuctionDTO auction)
         {
-            //Hämta id:et från jwt-claims
-            return Ok();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return BadRequest("No user found");
+            var intUserId = int.Parse(userId);
+            var response = await _auctionsService.CreateNewAuction(auction, intUserId);
+            if (response.Message != "success") return BadRequest(response.Message);
+            return Ok(response);
         }
 
         [Authorize("UserOrAdmin")]

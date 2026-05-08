@@ -23,9 +23,10 @@ namespace Auctionsite_Backend.Core.Service
             return response;
         }
 
-        public Task<CreateNewAuctionResponseDTO> CreateNewAuction()
+        public async Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId)
         {
-            throw new NotImplementedException();
+            var response = await _auctionsRepo.CreateNewAuction(auction, userId);
+            return response;
         }
 
         public Task<DeleteAuctionResponseDTO> DeleteAuction(int id)
