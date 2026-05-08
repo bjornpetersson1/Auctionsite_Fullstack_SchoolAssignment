@@ -35,7 +35,7 @@ namespace Auctionsite_Backend.Core.Service
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(2),
+                expires: DateTime.UtcNow.AddMinutes(4),
                 signingCredentials: credentials
                 );
 

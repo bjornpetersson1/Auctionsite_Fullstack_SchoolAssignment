@@ -6,6 +6,7 @@ using Auctionsite_Backend.Data.Repo;
 using Auctionsite_Backend.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,11 @@ builder.Services.AddAuthentication("Bearer")
              ValidateAudience = false
          };
      });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+    options.AddPolicy("UserOrAdmin", policy => policy.RequireRole("admin", "user"));
+});
 
 var app = builder.Build();
 
@@ -41,6 +47,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseRouting();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
 app.UseSwagger();

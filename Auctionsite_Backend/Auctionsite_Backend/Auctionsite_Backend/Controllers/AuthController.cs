@@ -1,5 +1,6 @@
 ﻿using Auctionsite_Backend.Core.Interface;
 using Auctionsite_Backend.Data.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,13 @@ namespace Auctionsite_Backend.Controllers
                 return Ok(new {message = response.ResponseMessage, accessToken = response.AccessToken, refreshToken = response.RefreshToken, email = response.Email});
             }
             else return BadRequest(response.ResponseMessage);
+        }
+
+        [Authorize("AdminOnly")]
+        [HttpGet("auth-test")]
+        public IActionResult AuthTest()
+        {
+            return Ok("admin-nerd");
         }
     }
 }
