@@ -60,7 +60,21 @@ namespace Auctionsite_Backend.Data.Repo
         }
         public async Task<ReDeActivateUserResponseDTO?> DeactivateUser(int id)
         {
-            throw new NotImplementedException();
+            var response = await _dbContext.Users.FirstOrDefaultAsync(a => a.Id == id);
+            if (response == null) return null;
+            else
+            {
+                response.IsActive = false;
+                await _dbContext.SaveChangesAsync();
+                return new ReDeActivateUserResponseDTO()
+                {
+                    Id = response.Id,
+                    Name = response.Name,
+                    Email = response.Email,
+                    Role = response.Role,
+                    IsActive = response.IsActive,
+                };
+            }
         }
 
         public Task<ReDeActivateUserResponseDTO?> ReactivateUser(int id)

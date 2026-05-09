@@ -26,7 +26,7 @@ namespace Auctionsite_Backend.Core.Service
 
         public Task<ReDeActivateUserResponseDTO?> DeactivateUser(int id)
         {
-            var response = _adminRepo.ReactivateUser(id);
+            var response = _adminRepo.DeactivateUser(id);
             return response;
         }
 

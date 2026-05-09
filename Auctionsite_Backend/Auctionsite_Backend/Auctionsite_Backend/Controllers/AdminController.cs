@@ -45,13 +45,21 @@ namespace Auctionsite_Backend.Controllers
             }
         }
 
-        [HttpPut("users/{id}/deactivate")]
+        [HttpPatch("users/{id}/deactivate")]
         public async Task<IActionResult> DeactivateUser(int id)
         {
-            return Ok();
+            var response = await _adminService.DeactivateUser(id);
+            if (response == null)
+            {
+                return NotFound("User not found");
+            }
+            else
+            {
+                return Ok(response);
+            }
         }
 
-        [HttpPut("users/{id}/reactivate")]
+        [HttpPatch("users/{id}/reactivate")]
         public async Task<IActionResult> ReactivateUser(int id)
         {
             return Ok();
