@@ -6,7 +6,7 @@ namespace Auctionsite_Backend.Core.Interface
 {
     public interface IAuctionsService
     {
-        Task<AuctionListDTO> GetAuctionsList();
+        Task<AuctionListDTO> GetAuctionsList(bool includeAll);
         Task<AuctionDTO?> GetAuctionById(int id);
         Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId);
         Task<EditAuctionResponseDTO> EditAuction(EditAuctionDTO auction);

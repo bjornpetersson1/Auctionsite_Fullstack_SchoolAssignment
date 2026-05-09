@@ -15,9 +15,25 @@ namespace Auctionsite_Backend.Data.Repo
             _dbContext = dbContext;
         }
 
-        public async Task<AuctionListDTO> GetAuctionsList()
+        public async Task<AuctionListDTO> GetAuctionsList(bool includeAll)
         {
-            var response = await _dbContext.Auctions.ToListAsync();
+            var response = new List<Auction>();
+            if(includeAll)
+            {
+                response = await _dbContext.Auctions
+                    .OrderBy(a => a.EndDateTime)
+                    .ToListAsync();
+            }
+            else
+            {
+                response = await _dbContext.Auctions
+                    .Where(
+                    a => a.IsActive == true
+                    && a.StartDateTime <= DateTime.UtcNow
+                    && a.EndDateTime > DateTime.UtcNow)
+                    .OrderBy(a => a.EndDateTime)
+                    .ToListAsync();
+            }
             if (response != null && response.Count > 0)
             {
                 var dto = new AuctionListDTO();

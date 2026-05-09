@@ -19,9 +19,14 @@ namespace Auctionsite_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAuctionsList()
+        public async Task<IActionResult> GetAuctionsList([FromQuery] bool includeAll = false)
         {
-            var response = await _auctionsService.GetAuctionsList();
+            var userRole = User.FindFirstValue(ClaimTypes.Role);
+            if(includeAll == true && userRole != "admin")
+            {
+                return Forbid();
+            }
+            var response = await _auctionsService.GetAuctionsList(includeAll);
             return Ok(response);
         }
 

@@ -7,6 +7,7 @@ namespace Auctionsite_Backend.Models
     public class Auction
     {
         public int Id { get; set; }
+        public bool IsActive { get; set; } = true;
         public string Title { get; set; }
         public string Description { get; set; }
         public float? AskingPrice { get; set; }

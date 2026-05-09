@@ -12,9 +12,9 @@ namespace Auctionsite_Backend.Core.Service
         {
             _auctionsRepo = auctionsRepo;
         }
-        public async Task<AuctionListDTO> GetAuctionsList()
+        public async Task<AuctionListDTO> GetAuctionsList(bool includeAll)
         {
-            var response = await _auctionsRepo.GetAuctionsList();
+            var response = await _auctionsRepo.GetAuctionsList(includeAll);
             return response;
         }
         public async Task<AuctionDTO?> GetAuctionById(int id)
