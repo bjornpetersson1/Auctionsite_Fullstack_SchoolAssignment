@@ -33,7 +33,8 @@ namespace Auctionsite_Backend.Core.Service
 
         public Task<ReDeActivateUserResponseDTO?> ReactivateUser(int id)
         {
-            throw new NotImplementedException();
+            var response = _adminRepo.ReactivateUser(id);
+            return response;
         }
     }
 }
