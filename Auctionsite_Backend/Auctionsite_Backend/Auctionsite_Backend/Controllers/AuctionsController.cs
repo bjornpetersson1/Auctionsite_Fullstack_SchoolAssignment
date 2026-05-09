@@ -18,6 +18,21 @@ namespace Auctionsite_Backend.Controllers
             _auctionsService = auctionsService;
         }
 
+        [Authorize("UserOnly")]
+        [HttpPost("{auctionId}/bids")]
+        public async Task<IActionResult> PlaceBidOnAuction(int auctionId, float amount)
+        {
+            var userId = GetUserIdFromJWT();
+            var userBid = new PlaceBidDTO() { AuctionId = auctionId, Amount = amount, UserId = userId };
+            var response = await _auctionsService.PlaceBidOnAuction(userBid);
+            if(response.Message != "success")
+            {
+                return BadRequest(response.Message);
+            }
+            return Created($"api/auctions/{auctionId}/bids",response);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetAuctionsList([FromQuery] bool includeAll = false)
         {

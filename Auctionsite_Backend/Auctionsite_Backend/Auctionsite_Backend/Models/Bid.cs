@@ -9,7 +9,7 @@ namespace Auctionsite_Backend.Models
     {
         public int Id { get; set; }
         public float Amount { get; set; }
-        public DateTime PlacedAt { get; set; }
+        public DateTime PlacedAt { get; set; } = DateTime.UtcNow;
         public int UserId { get; set; }
         [DeleteBehavior(DeleteBehavior.NoAction)]
         public User User { get; set; }

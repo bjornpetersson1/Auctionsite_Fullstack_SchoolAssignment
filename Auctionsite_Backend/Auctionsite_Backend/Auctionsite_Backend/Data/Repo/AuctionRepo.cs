@@ -14,6 +14,67 @@ namespace Auctionsite_Backend.Data.Repo
         {
             _dbContext = dbContext;
         }
+        public async Task<PlaceBidResponseDTO> PlaceBidOnAuction(PlaceBidDTO placeBid)
+        {
+            if(placeBid.Amount <= 0)
+            {
+                return new PlaceBidResponseDTO() { Message = "Bid can't be zero or less" };
+            }
+            var auction = await _dbContext.Auctions.FirstOrDefaultAsync(a => a.Id == placeBid.AuctionId);
+            if (auction == null)
+            {
+                return new PlaceBidResponseDTO() { Message = "Auction not found" };
+            }
+            if (!auction.IsActive || auction.StartDateTime >  DateTime.UtcNow)
+            {
+                return new PlaceBidResponseDTO() { Message = "Auction is not active" };
+            }
+            if (auction.EndDateTime < DateTime.UtcNow)
+            {
+                return new PlaceBidResponseDTO() { Message = "Auction is over" };
+            }
+            if (auction.UserId == placeBid.UserId)
+            {
+                return new PlaceBidResponseDTO() { Message = "You can't place bid on your own auction" };
+            }
+
+            var topBid = await _dbContext.Bids
+                .Where(b => b.AuctionId == placeBid.AuctionId)
+                .OrderByDescending(b => b.Amount)
+                .FirstOrDefaultAsync();
+
+            if(topBid != null)
+            {
+                if(placeBid.Amount <= topBid?.Amount)
+                {
+                    return new PlaceBidResponseDTO() { Message = "Bid have to be higher than top bid" };
+                }
+            }
+
+            var userBid = new Bid()
+            {
+                Amount = placeBid.Amount,
+                UserId = placeBid.UserId,
+                AuctionId = placeBid.AuctionId,
+            };
+            await _dbContext.Bids.AddAsync(userBid);
+            var rowsSaved = await _dbContext.SaveChangesAsync();
+            if(rowsSaved > 0)
+            {
+                return new PlaceBidResponseDTO()
+                {
+                    Message = "success",
+                    Amount = userBid.Amount,
+                    UserId = userBid.UserId,
+                    AuctionId = userBid.AuctionId,
+                    PlacedAt = userBid.PlacedAt,
+                };
+            }
+            else
+            {
+                return new PlaceBidResponseDTO() { Message = "Something went wrong" };
+            }
+        }
 
         public async Task<AuctionListDTO> GetAuctionsList(bool includeAll)
         {
@@ -168,7 +229,6 @@ namespace Auctionsite_Backend.Data.Repo
             }
 
         }
-
 
     }
 }
