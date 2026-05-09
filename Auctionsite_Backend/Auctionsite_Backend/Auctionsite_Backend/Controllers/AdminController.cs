@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Auctionsite_Backend.Core.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,18 +7,44 @@ namespace Auctionsite_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("AdminOnly")]
     public class AdminController : ControllerBase
     {
-        [Authorize("AdminOnly")]
-        [HttpPut("deactivate-auction-{id}")]
+        private readonly IAdminService _adminService;
+
+        public AdminController(IAdminService adminService)
+        {
+            _adminService = adminService;
+        }
+
+        [HttpPatch("auctions/{id}/deactivate")]
         public async Task<IActionResult> DeactivateAuction(int id)
+        {
+            var response = await _adminService.DeactivateAuction(id);
+            if(response == null)
+            {
+                return NotFound("Auction not found");
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        [HttpPatch("auctions/{id}/reactivate")]
+        public async Task<IActionResult> ReactivateAuction(int id)
         {
             return Ok();
         }
 
-        [Authorize("AdminOnly")]
-        [HttpPut("deactivate-user-{id}")]
+        [HttpPut("users/{id}/deactivate")]
         public async Task<IActionResult> DeactivateUser(int id)
+        {
+            return Ok();
+        }
+
+        [HttpPut("users/{id}/reactivate")]
+        public async Task<IActionResult> ReactivateUser(int id)
         {
             return Ok();
         }
