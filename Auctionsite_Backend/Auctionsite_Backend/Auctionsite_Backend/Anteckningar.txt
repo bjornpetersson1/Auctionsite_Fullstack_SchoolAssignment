@@ -1,4 +1,14 @@
-﻿Auktion
+﻿Add created at??? på users
+Ändra så registerresponse innehåller custom felmeddelande per fel?
+
+Mycket auktionslogik ligger i repo, fixa det??
+
+Upcoming Auctions flik i frontend??
+
+Va extremt noga med Datetime.utc när du skapar auktioner!!!!!!
+
+
+Auktion
 
 
 Db-struktur
@@ -40,10 +50,3 @@ Db-struktur
 		FK AuktionId
 
 		
-
-Add created at??? på users
-Ändra så registerresponse innehåller custom felmeddelande per fel?
-
-Mycket auktionslogik ligger i repo, fixa det??
-
-Upcoming Auctions flik i frontend??

@@ -12,6 +12,11 @@ namespace Auctionsite_Backend.Core.Service
         {
             _auctionsRepo = auctionsRepo;
         }
+        public async Task<PlaceBidResponseDTO> PlaceBidOnAuction(PlaceBidDTO placeBid)
+        {
+            var response = await _auctionsRepo.PlaceBidOnAuction(placeBid);
+            return response;
+        }
         public async Task<AuctionListDTO> GetAuctionsList(bool includeAll)
         {
             var response = await _auctionsRepo.GetAuctionsList(includeAll);
@@ -39,8 +44,6 @@ namespace Auctionsite_Backend.Core.Service
             var response = await _auctionsRepo.DeleteAuction(auction);
             return response;
         }
-
-
 
     }
 }
