@@ -18,6 +18,20 @@ namespace Auctionsite_Backend.Controllers
             _auctionsService = auctionsService;
         }
 
+        [HttpGet("{auctionId}/bids")]
+        public async Task<IActionResult> GetAllBids(int auctionId)
+        {
+            var response = await _auctionsService.GetAllBids(auctionId);
+            if(response == null)
+            {
+                return NotFound("AuctionId invalid");
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
         [Authorize("UserOnly")]
         [HttpPost("{auctionId}/bids")]
         public async Task<IActionResult> PlaceBidOnAuction(int auctionId, float amount)

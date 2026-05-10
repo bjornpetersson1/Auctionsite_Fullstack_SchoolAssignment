@@ -14,6 +14,60 @@ namespace Auctionsite_Backend.Data.Repo
         {
             _dbContext = dbContext;
         }
+        public async Task<GetAllBidsResponseDTO?> GetAllBids(int auctionId)
+        {
+            //var bids = await _dbContext.Bids
+            //    .Where(b => b.AuctionId == auctionId)
+            //    .OrderByDescending(b => b.Amount)
+            //    .ToListAsync();
+            var auction = await _dbContext
+                .Auctions
+                .Include(a => a.Bids)
+                .FirstOrDefaultAsync(a => a.Id == auctionId);
+            if (auction == null)
+            { 
+                return null;
+            }
+            var bids = auction.Bids
+                .OrderByDescending(b => b.Amount)
+                .ToList();
+
+            if(bids == null)
+            { 
+                return null; 
+            }
+            
+            var biddersId = bids
+                .Select(b => b.UserId)
+                .Distinct()
+                .ToList();
+            
+            var biddersIdNames = new Dictionary<int, string>();
+            
+            foreach (var id in biddersId)
+            {
+                var bidder = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+                var name = bidder?.Name ?? "unknown";
+                biddersIdNames.Add(id, name);
+            }
+
+            var allBidsForAuction = new GetAllBidsResponseDTO();
+
+            foreach (var bid in bids)
+            {
+                allBidsForAuction.Bids.Add(
+                    new GetAllBidsResponseBidDTO()
+                    {
+                        Id = bid.Id,
+                        Amount = bid.Amount,
+                        PlacedAt = bid.PlacedAt,
+                        BidderName = biddersIdNames[bid.UserId]
+                    });
+            }
+
+            return allBidsForAuction;
+
+        }
         public async Task<PlaceBidResponseDTO> PlaceBidOnAuction(PlaceBidDTO placeBid)
         {
             if(placeBid.Amount <= 0)
@@ -227,8 +281,6 @@ namespace Auctionsite_Backend.Data.Repo
                     IsDeleted = true
                 };
             }
-
         }
-
     }
 }
