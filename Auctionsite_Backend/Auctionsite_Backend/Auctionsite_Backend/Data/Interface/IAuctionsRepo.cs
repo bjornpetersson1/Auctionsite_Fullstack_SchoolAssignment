@@ -4,6 +4,7 @@ namespace Auctionsite_Backend.Data.Interface
 {
     public interface IAuctionsRepo
     {
+        Task<GetAllBidsResponseDTO?> GetAllBids(int auctionId);
         Task<PlaceBidResponseDTO> PlaceBidOnAuction(PlaceBidDTO placeBid);
         Task<AuctionListDTO> GetAuctionsList(bool includeAll);
         Task<AuctionDTO?> GetAuctionById(int id);

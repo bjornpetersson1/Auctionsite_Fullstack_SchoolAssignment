@@ -12,6 +12,11 @@ namespace Auctionsite_Backend.Core.Service
         {
             _auctionsRepo = auctionsRepo;
         }
+        public async Task<GetAllBidsResponseDTO?> GetAllBids(int auctionId)
+        {
+            var response = await _auctionsRepo.GetAllBids(auctionId);
+            return response;
+        }
         public async Task<PlaceBidResponseDTO> PlaceBidOnAuction(PlaceBidDTO placeBid)
         {
             var response = await _auctionsRepo.PlaceBidOnAuction(placeBid);
