@@ -28,6 +28,7 @@ namespace Auctionsite_Backend.Core.Service
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role),
+                new Claim("IsActive", user.IsActive.ToString().ToLower())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtKey"]));

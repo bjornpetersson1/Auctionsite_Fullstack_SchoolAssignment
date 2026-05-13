@@ -1,5 +1,6 @@
 ﻿using Auctionsite_Backend.Core.Interface;
 using Auctionsite_Backend.Data.DTO;
+using Auctionsite_Backend.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace Auctionsite_Backend.Controllers
         }
 
         [Authorize("UserOnly")]
+        [RequireActiveUser]
         [HttpPost("{auctionId}/bids")]
         public async Task<IActionResult> PlaceBidOnAuction(int auctionId, float amount)
         {
@@ -68,6 +70,7 @@ namespace Auctionsite_Backend.Controllers
         }
 
         [Authorize("UserOrAdmin")]
+        [RequireActiveUser]
         [HttpPost]
         public async Task<IActionResult> CreateNewAuction([FromBody] CreateNewAuctionDTO auction)
         {
@@ -79,6 +82,7 @@ namespace Auctionsite_Backend.Controllers
         }
 
         [Authorize("UserOrAdmin")]
+        [RequireActiveUser]
         [HttpPut]
         public async Task<IActionResult> EditAuction([FromBody] EditAuctionDTO auction)
         {
@@ -95,6 +99,7 @@ namespace Auctionsite_Backend.Controllers
         }
 
         [Authorize("UserOrAdmin")]
+        [RequireActiveUser]
         [HttpDelete]
         public async Task<IActionResult> DeleteAuction([FromBody] DeleteAuctionDTO auction)
         {
