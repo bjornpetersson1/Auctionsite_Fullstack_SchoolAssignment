@@ -1,16 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { LoginPayloadContext } from "../types/authTypes";
+import { apiFetch } from "../api/client";
 
 type AuthContextType = {
   user: LoginPayloadContext;
   login: (user: LoginPayloadContext) => void;
   logout: () => void;
 };
-
-// const decodeToken = (token: string) => {
-//   const payload = token.split(".")[1];
-//   return JSON.parse(atob(payload));
-// };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -23,8 +19,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isAuthenticated: false,
   });
 
+  useEffect(() => {
+    apiFetch("/api/Auth/me")
+      .then((data) => {
+        setUser({
+          token: null,
+          userId: data.userId,
+          userName: data.name,
+          role: data.role,
+          isAuthenticated: true,
+        });
+      })
+      .catch(() => {});
+  }, []);
+
   const login = (payload: LoginPayloadContext) => {
-    // const decodedToken = decodeToken(payload.token!);
     setUser({
       token: null,
       userId: payload.userId,

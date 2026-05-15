@@ -1,4 +1,6 @@
-﻿Add created at??? på users
+﻿WEBSOCKETPROBLEM vid uppdatering
+
+Add created at??? på users
 Ändra så registerresponse innehåller custom felmeddelande per fel?
 
 Mycket auktionslogik ligger i repo, fixa det??

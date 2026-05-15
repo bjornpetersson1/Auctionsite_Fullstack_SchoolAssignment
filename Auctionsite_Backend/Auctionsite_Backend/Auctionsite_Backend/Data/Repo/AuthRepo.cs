@@ -3,6 +3,7 @@ using Auctionsite_Backend.Data.DTO;
 using Auctionsite_Backend.Data.Interface;
 using Auctionsite_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Auctionsite_Backend.Data.Repo
