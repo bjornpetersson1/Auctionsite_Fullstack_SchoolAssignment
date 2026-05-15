@@ -7,10 +7,10 @@ type AuthContextType = {
   logout: () => void;
 };
 
-const decodeToken = (token: string) => {
-  const payload = token.split(".")[1];
-  return JSON.parse(atob(payload));
-};
+// const decodeToken = (token: string) => {
+//   const payload = token.split(".")[1];
+//   return JSON.parse(atob(payload));
+// };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -23,34 +23,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isAuthenticated: false,
   });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded = decodeToken(token);
-      setUser({
-        token,
-        userId: Number(decoded.nameid),
-        userName: decoded.email,
-        role: decoded.role,
-        isAuthenticated: true,
-      });
-    }
-  }, []);
-
   const login = (payload: LoginPayloadContext) => {
-    localStorage.setItem("token", payload.token!);
-    const decodedToken = decodeToken(payload.token!);
+    // const decodedToken = decodeToken(payload.token!);
     setUser({
-      token: payload.token,
-      userId: Number(decodedToken.nameid),
-      userName: decodedToken.email,
-      role: decodedToken.role,
+      token: null,
+      userId: payload.userId,
+      userName: payload.userName,
+      role: payload.role,
       isAuthenticated: true,
     });
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
     setUser({
       token: null,
       userId: null,

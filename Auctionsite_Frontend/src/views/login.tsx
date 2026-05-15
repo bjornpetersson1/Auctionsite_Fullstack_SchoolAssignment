@@ -18,9 +18,9 @@ export const Login = () => {
       const response = await loginUserAPI(loginLoad);
       console.log(response);
       login({
-        token: response.accessToken,
+        token: null,
         userId: null,
-        userName: null,
+        userName: response.name,
         role: null,
         isAuthenticated: true,
       });

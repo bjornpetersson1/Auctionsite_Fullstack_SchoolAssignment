@@ -4,6 +4,7 @@ using Auctionsite_Backend.Data;
 using Auctionsite_Backend.Data.Interface;
 using Auctionsite_Backend.Data.Repo;
 using Auctionsite_Backend.Data.Seeders;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -27,9 +28,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAny", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -42,6 +44,14 @@ builder.Services.AddAuthentication("Bearer")
              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"])),
              ValidateIssuer = false,
              ValidateAudience = false
+         };
+         options.Events = new JwtBearerEvents
+         {
+             OnMessageReceived = ctx =>
+             {
+                 ctx.Token = ctx.Request.Cookies["accessToken"];
+                 return Task.CompletedTask;
+             }
          };
      });
 builder.Services.AddAuthorization(options =>
