@@ -10,7 +10,7 @@ namespace Auctionsite_Backend.Filters
             var isActive = context.HttpContext.User.FindFirst("IsActive")?.Value;
             if (isActive != "true")
             {
-                context.Result = new BadRequestObjectResult("User inactvated");
+                context.Result = new BadRequestObjectResult("Your account has been deactivated");
             }
         }
     }

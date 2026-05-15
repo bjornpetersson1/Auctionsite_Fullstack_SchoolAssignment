@@ -1,0 +1,8 @@
+:root {
+  --color-lavender: #e8d5f5;
+  --color-lavender-dark: #333;
+  --color-mint: #c8f0dc;
+  --color-peach: #fde8d0;
+
+  background: var(--color-peach);
+}

@@ -1,0 +1,34 @@
+.navbar {
+  background: var(--color-lavender);
+  border: 2px solid var(--color-lavender-dark);
+  box-shadow: 4px 4px 0 var(--color-lavender-dark);
+  display: flex;
+  transition:
+    box-shadow 0.08s,
+    transform 0.08s;
+}
+
+.navbar a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-lavender-dark);
+  text-decoration: none;
+  border-right: 2px solid var(--color-lavender-dark);
+  transition: background 0.1s;
+}
+
+.navbar a:last-child {
+  border-right: none;
+}
+
+.navbar a:hover {
+  background: var(--color-lavender-dark);
+  color: var(--color-lavender);
+}
+
+.navbar a:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0 var(--color-lavender-dark);
+}
