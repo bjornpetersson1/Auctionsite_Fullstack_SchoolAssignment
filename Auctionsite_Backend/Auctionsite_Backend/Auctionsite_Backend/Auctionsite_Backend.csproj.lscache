@@ -132,6 +132,10 @@ Migrations/
  20260509073913_AddedIsActiveToAuctions.Designer.cs
  20260509093310_AddedDefaultvalue.cs
  20260509093310_AddedDefaultvalue.Designer.cs
+ 20260516185257_UpdateAuction.cs
+ 20260516185257_UpdateAuction.Designer.cs
+ 20260516191715_UpdateAuction2.cs
+ 20260516191715_UpdateAuction2.Designer.cs
  AuctionSiteDbContextModelSnapshot.cs
 Models/
  Auction.cs

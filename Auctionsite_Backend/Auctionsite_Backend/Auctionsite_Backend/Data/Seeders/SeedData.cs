@@ -5,6 +5,7 @@
         public static async Task SeedAsync(AuctionSiteDbContext dbContext)
         {
             await UserSeeder.CreateUsers(dbContext);
+            await AuctionSeeder.CreateAuctions(dbContext);
         }
     }
 }

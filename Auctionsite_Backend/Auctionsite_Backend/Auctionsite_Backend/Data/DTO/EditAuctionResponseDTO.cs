@@ -3,6 +3,6 @@
     public class EditAuctionResponseDTO
     {
         public string Message { get; set; }
-        public DateTime EditedAt { get; set; }
+        public DateTime? EditedAt { get; set; }
     }
 }
