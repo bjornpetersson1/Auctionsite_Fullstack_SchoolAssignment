@@ -19,10 +19,24 @@ namespace Auctionsite_Backend.Controllers
             _auctionsService = auctionsService;
         }
 
+        [HttpGet("bids")]
+        public async Task<IActionResult> GetAllBids()
+        { 
+            var response = await _auctionsService.GetAllBids();
+            if(response == null)
+            {
+                return BadRequest(string.Empty);
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
         [HttpGet("{auctionId}/bids")]
-        public async Task<IActionResult> GetAllBids(int auctionId)
+        public async Task<IActionResult> GetAllBidsForAuction(int auctionId)
         {
-            var response = await _auctionsService.GetAllBids(auctionId);
+            var response = await _auctionsService.GetAllBidsForAuction(auctionId);
             if(response == null)
             {
                 return NotFound("AuctionId invalid");

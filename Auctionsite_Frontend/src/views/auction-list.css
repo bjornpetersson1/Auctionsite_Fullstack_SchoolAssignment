@@ -1,0 +1,69 @@
+.auctions-list {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.auctions-list h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  color: var(--color-lavender-dark);
+  letter-spacing: 0.05em;
+  border-bottom: 3px solid var(--color-lavender-dark);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.auctions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* auction-card.css */
+
+.list-card {
+  background: var(--color-lavender);
+  border: 2px solid var(--color-lavender-dark);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.list-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 0px var(--color-lavender-dark);
+}
+
+.list-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 2px solid var(--color-lavender-dark);
+}
+
+.list-card h3 {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  margin: 0.75rem 1rem 0.25rem;
+  color: var(--color-lavender-dark);
+}
+
+.list-card p {
+  margin: 0.25rem 1rem;
+  font-size: 0.85rem;
+  color: var(--color-lavender-dark);
+}
+
+.list-card p:last-child {
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+  color: var(--color-lavender-dark);
+}

@@ -14,12 +14,47 @@ namespace Auctionsite_Backend.Data.Repo
         {
             _dbContext = dbContext;
         }
-        public async Task<GetAllBidsResponseDTO?> GetAllBids(int auctionId)
+
+        public async Task<GetAllBidsResponseDTO?> GetAllBids()
         {
-            //var bids = await _dbContext.Bids
-            //    .Where(b => b.AuctionId == auctionId)
-            //    .OrderByDescending(b => b.Amount)
-            //    .ToListAsync();
+            var bids = await _dbContext.Bids.ToListAsync();
+            if (bids == null) return null;
+
+            var biddersId = bids
+                .Select(b => b.UserId)
+                .Distinct()
+                .ToList();
+
+            var biddersIdNames = new Dictionary<int, string>();
+
+            foreach (var id in biddersId)
+            {
+                var bidder = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+                var name = bidder?.Name ?? "unknown";
+                biddersIdNames.Add(id, name);
+            }
+
+            var allBids = new GetAllBidsResponseDTO();
+
+            foreach (var bid in bids)
+            {
+                allBids.Bids.Add(
+                    new GetAllBidsResponseBidDTO()
+                    {
+                        Id = bid.Id,
+                        AuctionId = bid.AuctionId,
+                        Amount = bid.Amount,
+                        PlacedAt = bid.PlacedAt,
+                        BidderName = biddersIdNames[bid.UserId],
+                        UserId = bid.UserId,
+                    });
+            }
+
+            return allBids;
+        }
+
+        public async Task<GetAllBidsResponseDTO?> GetAllBidsForAuction(int auctionId)
+        {
             var auction = await _dbContext
                 .Auctions
                 .Include(a => a.Bids)
@@ -59,9 +94,11 @@ namespace Auctionsite_Backend.Data.Repo
                     new GetAllBidsResponseBidDTO()
                     {
                         Id = bid.Id,
+                        AuctionId = bid.AuctionId,
                         Amount = bid.Amount,
                         PlacedAt = bid.PlacedAt,
-                        BidderName = biddersIdNames[bid.UserId]
+                        BidderName = biddersIdNames[bid.UserId],
+                        UserId = bid.UserId,
                     });
             }
 
@@ -144,6 +181,7 @@ namespace Auctionsite_Backend.Data.Repo
                 response = await _dbContext.Auctions
                     .Where(
                     a => a.IsActive == true
+                    && a.IsOpen == true
                     && a.StartDateTime <= DateTime.UtcNow
                     && a.EndDateTime > DateTime.UtcNow)
                     .OrderBy(a => a.EndDateTime)

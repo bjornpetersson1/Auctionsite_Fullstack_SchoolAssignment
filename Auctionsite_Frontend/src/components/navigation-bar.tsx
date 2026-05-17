@@ -7,11 +7,12 @@ export const Navbar = () => {
   return (
     <div className="navbar">
       <Link to="/">Auctions</Link>
-      <Link to="/auctions/:id">Auction details</Link>
       <Link to="/login">Login</Link>
       <Link to="/register">Register new user</Link>
-      <Link to="/create-auction">Create new auctions</Link>
-      <Link to="/admin">Admin</Link>
+      {user.isAuthenticated && (
+        <Link to="/create-auction">Create new auctions</Link>
+      )}
+      {user.role === "admin" && <Link to="/admin">Admin</Link>}
       <h3>{user.userName}</h3>
     </div>
   );
