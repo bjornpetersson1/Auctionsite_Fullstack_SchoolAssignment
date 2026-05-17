@@ -6,6 +6,7 @@
         {
             await UserSeeder.CreateUsers(dbContext);
             await AuctionSeeder.CreateAuctions(dbContext);
+            await BidSeeder.CreateBids(dbContext);
         }
     }
 }
