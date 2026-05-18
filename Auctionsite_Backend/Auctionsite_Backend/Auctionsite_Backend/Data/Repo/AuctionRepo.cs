@@ -220,6 +220,7 @@ namespace Auctionsite_Backend.Data.Repo
                 ImageUrl = response.ImageUrl,
                 StartDateTime = response.StartDateTime,
                 EndDateTime = response.EndDateTime,
+                UserId = response.UserId,
             };
         }
         public async Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId )

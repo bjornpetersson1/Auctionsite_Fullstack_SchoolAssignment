@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Auction, Bid } from "../types/auctionTypes";
 import { useNavigate } from "react-router-dom";
+import { formatMsToDate, formatString } from "../helpers/auction-helpers";
 
 export const AuctionCard = ({
   auction,
@@ -34,21 +35,6 @@ export const AuctionCard = ({
       setHighestBidder(bids[0]?.bidderName ?? "Ingen budgivare");
     }
   }, [allBids]);
-
-  const formatMsToDate = (ms: number) => {
-    if (ms <= 0) return "Avslutad";
-    const totalSeconds = Math.floor(ms / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${days} d ${hours}:${minutes}:${seconds}`;
-  };
-
-  const formatString = (text: string, length: number) => {
-    if (text.length > length + 3) return `${text.slice(0, length)}...`;
-    else return text;
-  };
 
   const handleClick = (id: number) => {
     navigate(`/auctions/${id}`);

@@ -17,3 +17,15 @@ export const getAllBids = async () => {
     method: "GET",
   });
 };
+
+export const getBidsByAuctionId = async (id: number) => {
+  return await apiFetch(`/api/auctions/${id}/bids`, {
+    method: "GET",
+  });
+};
+
+export const placeBid = async (auctionId: number, amount: number) => {
+  return await apiFetch(`/api/auctions/${auctionId}/bids?amount=${amount}`, {
+    method: "POST",
+  });
+};
