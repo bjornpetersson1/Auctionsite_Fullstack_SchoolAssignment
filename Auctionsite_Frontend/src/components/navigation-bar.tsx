@@ -3,17 +3,18 @@ import "./navigation-bar.css";
 import { useAuth } from "../context/auth-context";
 
 export const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   return (
     <div className="navbar">
       <Link to="/">Auctions</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register new user</Link>
       {user.isAuthenticated && (
         <Link to="/create-auction">Create new auctions</Link>
       )}
+      {!user.isAuthenticated && <Link to="/login">Login</Link>}
+      {!user.isAuthenticated && <Link to="/register">Register new user</Link>}
       {user.role === "admin" && <Link to="/admin">Admin</Link>}
-      <h3>{user.userName}</h3>
+      {user.isAuthenticated && <button onClick={logout}>Logout</button>}
+      {user.isAuthenticated && <h3>{user.userName}</h3>}
     </div>
   );
 };

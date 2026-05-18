@@ -37,8 +37,8 @@ export const AuctionsList = () => {
   if (error) return <p>{error}</p>;
   if (auctions.length === 0) return <p>Inga auktioner tillgängliga just nu</p>;
   return (
-    <>
-      <p>Auctions list</p>
+    <div>
+      <h3>Auctions</h3>
       <div className="auctions-list">
         <ul className="auctions-grid">
           {auctions.map((auction) => (
@@ -48,6 +48,6 @@ export const AuctionsList = () => {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };

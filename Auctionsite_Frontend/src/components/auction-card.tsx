@@ -44,6 +44,12 @@ export const AuctionCard = ({
     const seconds = totalSeconds % 60;
     return `${days} d ${hours}:${minutes}:${seconds}`;
   };
+
+  const formatString = (text: string, length: number) => {
+    if (text.length > length + 3) return `${text.slice(0, length)}...`;
+    else return text;
+  };
+
   const handleClick = (id: number) => {
     navigate(`/auctions/${id}`);
   };
@@ -52,8 +58,8 @@ export const AuctionCard = ({
     <>
       <div className="list-card" onClick={() => handleClick(auction.id)}>
         <img src={auction.imageUrl} alt={auction.title} />
-        <h3>{auction.title.slice(0, 20)}</h3>
-        <p>{auction.description.slice(0, 50)}...</p>
+        <h3>{formatString(auction.title, 20)}</h3>
+        <p>{formatString(auction.description, 50)}</p>
         <p>
           {highestBid} kr, {highestBidder}
         </p>

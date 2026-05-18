@@ -31,8 +31,8 @@ export const Register = () => {
     navigate("/login");
   };
   return (
-    <>
-      <p>Register new user</p>
+    <div>
+      <h3>Register new user</h3>
       <input
         type="text"
         placeholder="Name"
@@ -56,6 +56,6 @@ export const Register = () => {
       {error && <p>{error}</p>}
       <button onClick={registerNewUser}>Register</button>
       <button onClick={() => navigate("/login")}>Cancel</button>
-    </>
+    </div>
   );
 };
