@@ -31,8 +31,8 @@ export const Login = () => {
   };
 
   return (
-    <>
-      <p>Login page</p>
+    <div>
+      <h3>Login page</h3>
       <input
         type="text"
         placeholder="Email"
@@ -47,7 +47,6 @@ export const Login = () => {
       ></input>
       {error && <p>{error}</p>}
       <button onClick={loginUser}>Login</button>
-      <button onClick={() => navigate("/register")}>Create new user</button>
-    </>
+    </div>
   );
 };
