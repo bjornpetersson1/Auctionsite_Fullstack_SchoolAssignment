@@ -1,3 +1,4 @@
+import type { NewAuctionPayload } from "../types/auctionTypes";
 import { apiFetch } from "./client";
 
 export const getAuctionList = async (includeAll: boolean = false) => {
@@ -27,5 +28,12 @@ export const getBidsByAuctionId = async (id: number) => {
 export const placeBid = async (auctionId: number, amount: number) => {
   return await apiFetch(`/api/auctions/${auctionId}/bids?amount=${amount}`, {
     method: "POST",
+  });
+};
+
+export const registerAuction = async (auction: NewAuctionPayload) => {
+  return await apiFetch("/api/auctions", {
+    method: "POST",
+    body: JSON.stringify(auction),
   });
 };

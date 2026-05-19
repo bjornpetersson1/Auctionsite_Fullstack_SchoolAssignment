@@ -31,23 +31,27 @@ export const Register = () => {
     navigate("/login");
   };
   return (
-    <div>
+    <div className="form-view">
       <h3>Register new user</h3>
+      <h4>Name</h4>
       <input
         type="text"
         placeholder="Name"
         onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
       ></input>
+      <h4>Email</h4>
       <input
         type="text"
         placeholder="Email"
         onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
       ></input>
+      <h4>Password</h4>
       <input
         type="password"
         placeholder="Password"
         onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
       ></input>
+      <h4>Confirm password</h4>
       <input
         type="password"
         placeholder="Confirm password"
