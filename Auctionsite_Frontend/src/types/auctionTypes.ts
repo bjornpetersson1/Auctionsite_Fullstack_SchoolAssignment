@@ -21,3 +21,12 @@ export type Bid = {
   bidderName: string;
   userId: number;
 };
+
+export type NewAuctionPayload = {
+  title: string;
+  description: string;
+  askingPrice: number;
+  imageUrl: string;
+  startDateTime: string;
+  endDateTime: string;
+};

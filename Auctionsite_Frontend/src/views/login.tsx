@@ -31,13 +31,15 @@ export const Login = () => {
   };
 
   return (
-    <div>
-      <h3>Login page</h3>
+    <div className="form-view">
+      <h3>Login</h3>
+      <h4>Email</h4>
       <input
         type="text"
         placeholder="Email"
         onChange={(e) => setLoginLoad({ ...loginLoad, email: e.target.value })}
       ></input>
+      <h4>Password</h4>
       <input
         type="password"
         placeholder="Password"

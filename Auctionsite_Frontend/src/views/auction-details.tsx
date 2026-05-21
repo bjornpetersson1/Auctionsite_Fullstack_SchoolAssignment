@@ -73,7 +73,7 @@ export const AuctionDetails = () => {
         <p>Säljar-id: {auction.userId}</p>
         <p>{auction.description}</p>
         <p>Avslutas om: {formatMsToDate(timeRemaining)}</p>
-        {user.isAuthenticated && user.userId !== auction.userId && (
+        {user.isAuthenticated && Number(user.userId) !== auction.userId && (
           <div className="bid-form">
             <input
               type="number"

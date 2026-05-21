@@ -170,7 +170,23 @@ namespace Auctionsite_Backend.Data.Repo
         public async Task<AuctionListDTO> GetAuctionsList(bool includeAll)
         {
             var response = new List<Auction>();
-            if(includeAll)
+            var now = DateTime.Now;
+            var toActivate = await _dbContext.Auctions
+                .Where(a => a.StartDateTime <= now && a.EndDateTime > now &&
+                    (a.IsActive == false || a.IsOpen == false))
+                .ToListAsync();
+
+            if (toActivate.Any())
+            {
+                foreach (var a in toActivate)
+                {
+                    a.IsActive = true;
+                    a.IsOpen = true;
+                }
+                await _dbContext.SaveChangesAsync();
+            }
+
+            if (includeAll)
             {
                 response = await _dbContext.Auctions
                     .OrderBy(a => a.EndDateTime)
