@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./form.css";
 import { registerAuction } from "../api/auctionAPI";
-import type { NewAuctionPayload } from "../types/auctionTypes";
+import type { Auction, NewAuctionPayload } from "../types/auctionTypes";
 import { useNavigate } from "react-router-dom";
 
 export const AuctionCreate = () => {
@@ -35,11 +35,11 @@ export const AuctionCreate = () => {
         startDateTime: new Date(startDateTime).toISOString(),
         endDateTime: new Date(endDateTime).toISOString(),
       };
-      await registerAuction(auction);
+      const createdAuction: Auction = await registerAuction(auction);
       setError(null);
-      navigate("/");
-    } catch {
-      setError("Något gick fel");
+      navigate(`/auctions/${createdAuction.id}`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Något gick fel");
     }
   };
 

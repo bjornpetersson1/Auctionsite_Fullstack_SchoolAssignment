@@ -73,17 +73,20 @@ export const AuctionDetails = () => {
         <p>Säljar-id: {auction.userId}</p>
         <p>{auction.description}</p>
         <p>Avslutas om: {formatMsToDate(timeRemaining)}</p>
-        {user.isAuthenticated && Number(user.userId) !== auction.userId && (
-          <div className="bid-form">
-            <input
-              type="number"
-              placeholder="lägg ditt bud"
-              onChange={(e) => setBid(Number(e.target.value))}
-            ></input>
-            <button onClick={() => handlePlacedBid()}>Lägg bud</button>
-            <p className="bid-error">{error}</p>
-          </div>
-        )}
+        {user.isAuthenticated &&
+          Number(user.userId) !== auction.userId &&
+          auction.isActive &&
+          auction.isOpen && (
+            <div className="bid-form">
+              <input
+                type="number"
+                placeholder="lägg ditt bud"
+                onChange={(e) => setBid(Number(e.target.value))}
+              ></input>
+              <button onClick={() => handlePlacedBid()}>Lägg bud</button>
+              <p className="bid-error">{error}</p>
+            </div>
+          )}
         <ul className="bids-list">
           {bids.map((bid) => (
             <li key={bid.id} className="bid-item">
