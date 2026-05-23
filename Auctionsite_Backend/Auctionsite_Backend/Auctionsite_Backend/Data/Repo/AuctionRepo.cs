@@ -244,13 +244,13 @@ namespace Auctionsite_Backend.Data.Repo
             if(auction.StartDateTime > auction.EndDateTime)
             {
                 return new CreateNewAuctionResponseDTO()
-                { Message = "Start time can't be after end time" };
+                { Message = "Starttid kan inte vara efter sluttid" };
             }
 
             if (auction.StartDateTime < DateTime.UtcNow)
             {
                 return new CreateNewAuctionResponseDTO
-                { Message = "Start time can't be in the past" };
+                { Message = "Starttid kan inte vara i dåtid" };
 
             }
           
@@ -271,6 +271,7 @@ namespace Auctionsite_Backend.Data.Repo
                 return new CreateNewAuctionResponseDTO
                 { 
                     Message = "success",
+                    Id = newAuction.Id,
                     CreatedAt = DateTime.UtcNow,
                 };
             }
@@ -278,7 +279,7 @@ namespace Auctionsite_Backend.Data.Repo
             {
                 return new CreateNewAuctionResponseDTO
                 {
-                    Message = "Something went wrong",
+                    Message = "Något gick fel",
                 };
             }
         }

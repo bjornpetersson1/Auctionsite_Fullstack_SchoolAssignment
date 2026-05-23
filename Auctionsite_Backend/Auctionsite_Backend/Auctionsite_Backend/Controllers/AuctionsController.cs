@@ -91,7 +91,7 @@ namespace Auctionsite_Backend.Controllers
             var userId = GetUserIdFromJWT();
             if (userId == 0) return BadRequest("No user found");
             var response = await _auctionsService.CreateNewAuction(auction, userId);
-            if (response.Message != "success") return BadRequest(response.Message);
+            if (response.Message != "success") return BadRequest(new { message = response.Message });
             return Ok(response);
         }
 
