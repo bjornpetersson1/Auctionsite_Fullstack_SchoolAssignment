@@ -57,7 +57,7 @@ namespace Auctionsite_Backend.Controllers
             var response = await _auctionsService.PlaceBidOnAuction(userBid);
             if(response.Message != "success")
             {
-                return BadRequest(response.Message);
+                return BadRequest(new { message = response.Message });
             }
             return Created($"api/auctions/{auctionId}/bids",response);
         }

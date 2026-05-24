@@ -59,13 +59,22 @@ export const AuctionDetails = () => {
       await placeBid(Number(id), bid);
       await fetchBids();
       setError(null);
-    } catch {
-      setError("felaktigt bud");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Något gick fel");
     }
   };
 
   if (loading) return <div className="spinner" />;
   if (auction !== undefined) {
+    console.log("bid form debug", {
+      isAuthenticated: user.isAuthenticated,
+      userIdRaw: user.userId,
+      userIdConverted: Number(user.userId),
+      auctionUserId: auction.userId,
+      userIsNotCreator: Number(user.userId) !== auction.userId,
+      isActive: auction.isActive,
+      isOpen: auction.isOpen,
+    });
     return (
       <div className="auction-details">
         <img src={auction.imageUrl} alt={auction.title} />
