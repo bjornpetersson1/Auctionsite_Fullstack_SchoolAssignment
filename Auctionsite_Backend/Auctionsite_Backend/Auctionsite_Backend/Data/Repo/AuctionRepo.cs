@@ -109,24 +109,24 @@ namespace Auctionsite_Backend.Data.Repo
         {
             if(placeBid.Amount <= 0)
             {
-                return new PlaceBidResponseDTO() { Message = "Bid can't be zero or less" };
+                return new PlaceBidResponseDTO() { Message = "Bud kan inte vara noll eller mindre" };
             }
             var auction = await _dbContext.Auctions.FirstOrDefaultAsync(a => a.Id == placeBid.AuctionId);
             if (auction == null)
             {
-                return new PlaceBidResponseDTO() { Message = "Auction not found" };
+                return new PlaceBidResponseDTO() { Message = "Auktion hittades ej" };
             }
             if (!auction.IsActive || auction.StartDateTime >  DateTime.UtcNow)
             {
-                return new PlaceBidResponseDTO() { Message = "Auction is not active" };
+                return new PlaceBidResponseDTO() { Message = "Auktionen är inte aktiv" };
             }
             if (auction.EndDateTime < DateTime.UtcNow)
             {
-                return new PlaceBidResponseDTO() { Message = "Auction is over" };
+                return new PlaceBidResponseDTO() { Message = "Auktionen är slut" };
             }
             if (auction.UserId == placeBid.UserId)
             {
-                return new PlaceBidResponseDTO() { Message = "You can't place bid on your own auction" };
+                return new PlaceBidResponseDTO() { Message = "Du kan inte lägga bud på din egen auktion" };
             }
 
             var topBid = await _dbContext.Bids
@@ -138,7 +138,7 @@ namespace Auctionsite_Backend.Data.Repo
             {
                 if(placeBid.Amount <= topBid?.Amount)
                 {
-                    return new PlaceBidResponseDTO() { Message = "Bid have to be higher than top bid" };
+                    return new PlaceBidResponseDTO() { Message = "Bud måste vara högre än nu högsta bud" };
                 }
             }
 
@@ -215,6 +215,8 @@ namespace Auctionsite_Backend.Data.Repo
                         Description = auction.Description,
                         AskingPrice = auction.AskingPrice,
                         ImageUrl = auction.ImageUrl,
+                        IsActive = auction.IsActive,
+                        IsOpen = auction.IsOpen,
                         StartDateTime = auction.StartDateTime,
                         EndDateTime = auction.EndDateTime,
                     });
@@ -236,6 +238,9 @@ namespace Auctionsite_Backend.Data.Repo
                 ImageUrl = response.ImageUrl,
                 StartDateTime = response.StartDateTime,
                 EndDateTime = response.EndDateTime,
+                IsActive = response.IsActive,
+                IsOpen = response.StartDateTime <= DateTime.UtcNow 
+                    && response.EndDateTime > DateTime.UtcNow,
                 UserId = response.UserId,
             };
         }
