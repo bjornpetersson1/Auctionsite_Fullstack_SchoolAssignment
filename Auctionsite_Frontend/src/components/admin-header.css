@@ -1,0 +1,7 @@
+.admin-navbar {
+  box-shadow: 4px 4px 0 var(--color-strawberry);
+  display: inline-flex;
+}
+.admin-navbar a {
+  background-color: var(--color-strawberry);
+}

@@ -37,3 +37,15 @@ export const registerAuction = async (auction: NewAuctionPayload) => {
     body: JSON.stringify(auction),
   });
 };
+
+export const deactivateAuction = async (id: number) => {
+  return await apiFetch(`/api/admin/auctions/${id}/deactivate`, {
+    method: "PATCH",
+  });
+};
+
+export const reactivateAuction = async (id: number) => {
+  return await apiFetch(`/api/admin/auctions/${id}/reactivate`, {
+    method: "PATCH",
+  });
+};

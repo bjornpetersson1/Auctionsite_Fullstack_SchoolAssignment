@@ -1,7 +1,9 @@
+import { AdminNavbar } from "../components/admin-header";
+
 export const AdminPage = () => {
   return (
-    <>
-      <p>Only for admins</p>
-    </>
+    <div>
+      <AdminNavbar />
+    </div>
   );
 };

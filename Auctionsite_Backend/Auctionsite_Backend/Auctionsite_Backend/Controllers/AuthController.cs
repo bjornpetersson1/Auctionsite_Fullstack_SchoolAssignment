@@ -72,5 +72,20 @@ namespace Auctionsite_Backend.Controllers
         {
             return Ok("admin-nerd");
         }
+
+        [Authorize]
+        [HttpGet("{id}/user-name")]
+        public async Task<IActionResult> GetNameById(int id)
+        {
+            var result = await _authService.GetNameById(id);
+            if (result != null)
+            {
+                return Ok(new { name = result });
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

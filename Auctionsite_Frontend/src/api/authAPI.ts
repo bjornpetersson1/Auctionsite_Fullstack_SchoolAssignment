@@ -15,3 +15,10 @@ export const loginUserAPI = async (user: loginPayload) => {
   });
   return response;
 };
+
+export const getNameById = async (id: number) => {
+  const response = await apiFetch(`/api/Auth/${id}/user-name`, {
+    method: "GET",
+  });
+  return response;
+};
