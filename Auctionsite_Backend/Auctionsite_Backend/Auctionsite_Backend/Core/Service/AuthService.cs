@@ -22,5 +22,10 @@ namespace Auctionsite_Backend.Core.Service
         {
             return await _authRepo.Login(loginRequestDTO);
         }
+
+        public async Task<string?> GetNameById(int id)
+        {
+            return await _authRepo.GetNameById(id);
+        }
     }
 }

@@ -97,5 +97,11 @@ namespace Auctionsite_Backend.Data.Repo
             }
             return response;
         }
+
+        public async Task<string?> GetNameById(int id)
+        {
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user == null ? null : user.Name;
+        }
     }
 }

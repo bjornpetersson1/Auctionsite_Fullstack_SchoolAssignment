@@ -9,6 +9,7 @@ import { Register } from "./views/register";
 import { AdminPage } from "./views/admin";
 import { AuthProvider } from "./context/auth-context";
 import { AdminRoute, ProtectedRoute } from "./components/protected-routes";
+import { AdminAuctionsList } from "./views/admin-auctions";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminPage />} />
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/auctions" element={<AdminAuctionsList />} />
           </Route>
         </Routes>
       </AuthProvider>

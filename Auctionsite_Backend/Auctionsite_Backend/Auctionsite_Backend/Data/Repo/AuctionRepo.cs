@@ -219,6 +219,7 @@ namespace Auctionsite_Backend.Data.Repo
                         IsOpen = auction.IsOpen,
                         StartDateTime = auction.StartDateTime,
                         EndDateTime = auction.EndDateTime,
+                        UserId = auction.UserId,
                     });
                 }
                 return dto;

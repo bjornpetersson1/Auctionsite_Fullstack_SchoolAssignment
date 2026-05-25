@@ -3,6 +3,7 @@
   --color-lavender-dark: #333;
   --color-mint: #c8f0dc;
   --color-peach: #fde8d0;
+  --color-strawberry: #f5c8c8;
 
   background: var(--color-peach);
 }
@@ -77,4 +78,28 @@ input {
 
 input:focus {
   background: var(--color-lavender);
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+th {
+  background: var(--color-lavender-dark);
+  color: var(--color-lavender);
+  padding: 6px 12px;
+  text-align: left;
+  font-weight: 700;
+  border: 3px solid #000;
+}
+
+td {
+  padding: 6px 12px;
+  border: 3px solid #000;
+  background: var(--color-lavender);
+}
+
+tr:nth-child(even) td {
+  background: var(--color-mint);
 }

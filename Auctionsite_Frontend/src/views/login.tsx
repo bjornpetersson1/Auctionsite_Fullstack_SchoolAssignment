@@ -19,9 +19,9 @@ export const Login = () => {
       console.log(response);
       login({
         token: null,
-        userId: null,
+        userId: response.id,
         userName: response.name,
-        role: null,
+        role: response.role,
         isAuthenticated: true,
       });
       navigate("/");
