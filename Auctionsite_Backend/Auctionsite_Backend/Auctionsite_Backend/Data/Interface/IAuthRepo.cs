@@ -7,5 +7,6 @@ namespace Auctionsite_Backend.Data.Interface
         Task<UserResponseDTO?> Register(UserRequestDTO userRequestDTO);
         Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
         Task<string?> GetNameById(int id);
+        Task<List<UserResponseDTO>> GetAllUsers();
     }
 }

@@ -10,6 +10,7 @@ import { AdminPage } from "./views/admin";
 import { AuthProvider } from "./context/auth-context";
 import { AdminRoute, ProtectedRoute } from "./components/protected-routes";
 import { AdminAuctionsList } from "./views/admin-auctions";
+import { AdminUsersList } from "./views/admin-user-list";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route element={<AdminRoute />}>
             <Route path="/admin/auctions" element={<AdminAuctionsList />} />
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/users" element={<AdminUsersList />} />
           </Route>
         </Routes>
       </AuthProvider>

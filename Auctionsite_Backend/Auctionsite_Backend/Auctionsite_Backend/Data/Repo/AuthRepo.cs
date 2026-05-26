@@ -57,7 +57,7 @@ namespace Auctionsite_Backend.Data.Repo
             if (loginRequestDTO.Password == null || loginRequestDTO.Email == null)
             {
                 response.LoginSuccess = false;
-                response.ResponseMessage = "Missing password or email input";
+                response.ResponseMessage = "Saknar lösenord eller email";
             }
             else 
             {
@@ -65,7 +65,7 @@ namespace Auctionsite_Backend.Data.Repo
                 if (user == null)
                 {
                     response.LoginSuccess = false;
-                    response.ResponseMessage = "Email not registered, consider creating new user";
+                    response.ResponseMessage = "Email är inte registrerad, överväg att skapa en ny användare";
                 }
                 else
                 {
@@ -74,7 +74,7 @@ namespace Auctionsite_Backend.Data.Repo
                         if(!user.IsActive)
                         {
                             response.LoginSuccess = false;
-                            response.ResponseMessage = "Account is deactivated";
+                            response.ResponseMessage = "Konto är inaktiverat, kontakta support";
                         }
                         else
                         {
@@ -91,7 +91,7 @@ namespace Auctionsite_Backend.Data.Repo
                     else
                     {
                         response.LoginSuccess = false;
-                        response.ResponseMessage = "Incorrect password";
+                        response.ResponseMessage = "Felaktigt lösenord";
                     }
                 }
             }
@@ -102,6 +102,27 @@ namespace Auctionsite_Backend.Data.Repo
         {
             var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
             return user == null ? null : user.Name;
+        }
+
+        public async Task<List<UserResponseDTO>> GetAllUsers()
+        {
+            var response = await dbContext.Users.ToListAsync();
+            var users = new List<UserResponseDTO>();
+
+            foreach (var user in response)
+            {
+                users.Add(new UserResponseDTO() 
+                {
+                    Id = user.Id, 
+                    Name = user.Name, 
+                    Email = user.Email, 
+                    Role = user.Role, 
+                    IsActive = user.IsActive 
+                });
+            }
+
+            return users;
+
         }
     }
 }

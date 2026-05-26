@@ -27,5 +27,10 @@ namespace Auctionsite_Backend.Core.Service
         {
             return await _authRepo.GetNameById(id);
         }
+
+        public async Task<List<UserResponseDTO>> GetAllUsers()
+        {
+            return await _authRepo.GetAllUsers();
+        }
     }
 }
