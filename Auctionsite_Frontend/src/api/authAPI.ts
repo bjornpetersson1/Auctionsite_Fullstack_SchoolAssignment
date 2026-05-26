@@ -22,3 +22,22 @@ export const getNameById = async (id: number) => {
   });
   return response;
 };
+
+export const getAllUsers = async () => {
+  const response = await apiFetch(`/api/Auth/users`, {
+    method: "GET",
+  });
+  return response;
+};
+
+export const deactivateUser = async (id: number) => {
+  return await apiFetch(`/api/Admin/users/${id}/deactivate`, {
+    method: "PATCH",
+  });
+};
+
+export const reactivateUser = async (id: number) => {
+  return await apiFetch(`/api/Admin/users/${id}/reactivate`, {
+    method: "PATCH",
+  });
+};

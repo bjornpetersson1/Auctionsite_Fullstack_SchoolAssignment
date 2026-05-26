@@ -48,7 +48,7 @@ namespace Auctionsite_Backend.Controllers
                   });
                 return Ok(response);
             }
-            else return BadRequest(response.ResponseMessage);
+            else return BadRequest(new { message = response.ResponseMessage });
         }
         [Authorize]
         [HttpGet("me")]
@@ -86,6 +86,13 @@ namespace Auctionsite_Backend.Controllers
             {
                 return NotFound();
             }
+        }
+        [Authorize("AdminOnly")]
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var response = await _authService.GetAllUsers();
+            return Ok(response);
         }
     }
 }

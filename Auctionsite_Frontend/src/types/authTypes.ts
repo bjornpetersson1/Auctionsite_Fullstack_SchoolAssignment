@@ -16,3 +16,11 @@ export type LoginPayloadContext = {
   role: string | null;
   isAuthenticated: boolean;
 };
+
+export type getUserPayload = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+};
