@@ -14,5 +14,6 @@ namespace Auctionsite_Backend.Core.Interface
         Task<CreateNewAuctionResponseDTO> CreateNewAuction(CreateNewAuctionDTO auction, int userId);
         Task<EditAuctionResponseDTO> EditAuction(EditAuctionDTO auction);
         Task<DeleteAuctionResponseDTO> DeleteAuction(DeleteAuctionDTO auction);
+        Task<AuctionListDTO?> GetAuctionsListFromQuery(string query, bool includeClosed);
     }
 }

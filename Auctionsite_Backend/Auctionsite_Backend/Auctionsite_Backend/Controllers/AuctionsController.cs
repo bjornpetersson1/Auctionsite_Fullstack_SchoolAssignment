@@ -75,6 +75,8 @@ namespace Auctionsite_Backend.Controllers
             return Ok(response);
         }
 
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAuctionById(int id)
         {
@@ -142,6 +144,13 @@ namespace Auctionsite_Backend.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return 0;
             else return int.Parse(userId);
+        }
+
+        [HttpGet("search-auction")]
+        public async Task<IActionResult> GetAuctionsListFromQuery([FromQuery] string query, [FromQuery] bool includeClosed = false)
+        {
+            var response = await _auctionsService.GetAuctionsListFromQuery(query, includeClosed);
+            return Ok(response);
         }
     }
 }
