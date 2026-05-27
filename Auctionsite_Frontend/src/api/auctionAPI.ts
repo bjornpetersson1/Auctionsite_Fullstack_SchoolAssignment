@@ -1,51 +1,73 @@
 import type { NewAuctionPayload } from "../types/auctionTypes";
-import { apiFetch } from "./client";
+import { type ApiFetch } from "./client";
 
-export const getAuctionList = async (includeAll: boolean = false) => {
-  return await apiFetch(`/api/auctions?includeAll=${includeAll}`, {
+export const getAuctionList = async (
+  fetchWithAuth: ApiFetch,
+  includeAll: boolean = false,
+) => {
+  return await fetchWithAuth(`/api/auctions?includeAll=${includeAll}`, {
     method: "GET",
   });
 };
 
-export const getAuctionById = async (id: number) => {
-  return await apiFetch(`/api/auctions/${id}`, {
+export const getAuctionById = async (fetchWithAuth: ApiFetch, id: number) => {
+  return await fetchWithAuth(`/api/auctions/${id}`, {
     method: "GET",
   });
 };
 
-export const getAllBids = async () => {
-  return await apiFetch(`/api/auctions/bids`, {
+export const getAllBids = async (fetchWithAuth: ApiFetch) => {
+  return await fetchWithAuth(`/api/auctions/bids`, {
     method: "GET",
   });
 };
 
-export const getBidsByAuctionId = async (id: number) => {
-  return await apiFetch(`/api/auctions/${id}/bids`, {
+export const getBidsByAuctionId = async (
+  fetchWithAuth: ApiFetch,
+  id: number,
+) => {
+  return await fetchWithAuth(`/api/auctions/${id}/bids`, {
     method: "GET",
   });
 };
 
-export const placeBid = async (auctionId: number, amount: number) => {
-  return await apiFetch(`/api/auctions/${auctionId}/bids?amount=${amount}`, {
-    method: "POST",
-  });
+export const placeBid = async (
+  fetchWithAuth: ApiFetch,
+  auctionId: number,
+  amount: number,
+) => {
+  return await fetchWithAuth(
+    `/api/auctions/${auctionId}/bids?amount=${amount}`,
+    {
+      method: "POST",
+    },
+  );
 };
 
-export const registerAuction = async (auction: NewAuctionPayload) => {
-  return await apiFetch("/api/auctions", {
+export const registerAuction = async (
+  fetchWithAuth: ApiFetch,
+  auction: NewAuctionPayload,
+) => {
+  return await fetchWithAuth("/api/auctions", {
     method: "POST",
     body: JSON.stringify(auction),
   });
 };
 
-export const deactivateAuction = async (id: number) => {
-  return await apiFetch(`/api/admin/auctions/${id}/deactivate`, {
+export const deactivateAuction = async (
+  fetchWithAuth: ApiFetch,
+  id: number,
+) => {
+  return await fetchWithAuth(`/api/admin/auctions/${id}/deactivate`, {
     method: "PATCH",
   });
 };
 
-export const reactivateAuction = async (id: number) => {
-  return await apiFetch(`/api/admin/auctions/${id}/reactivate`, {
+export const reactivateAuction = async (
+  fetchWithAuth: ApiFetch,
+  id: number,
+) => {
+  return await fetchWithAuth(`/api/admin/auctions/${id}/reactivate`, {
     method: "PATCH",
   });
 };

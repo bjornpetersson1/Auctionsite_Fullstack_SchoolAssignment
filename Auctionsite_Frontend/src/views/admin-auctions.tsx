@@ -5,11 +5,12 @@ import {
   reactivateAuction,
 } from "../api/auctionAPI";
 import { useAuth } from "../context/auth-context";
-import type { Auction, Bid } from "../types/auctionTypes";
+import type { Auction } from "../types/auctionTypes";
 import { getNameById } from "../api/authAPI";
 import { AdminNavbar } from "../components/admin-header";
 
 export const AdminAuctionsList = () => {
+  const { fetchWithAuth } = useAuth();
   const { user } = useAuth();
   const [auctions, setAuctions] = useState<Auction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,7 +21,7 @@ export const AdminAuctionsList = () => {
     const fetchAuctions = async () => {
       const includeAll = user.role === "admin";
       try {
-        var data = await getAuctionList(includeAll);
+        var data = await getAuctionList(fetchWithAuth, includeAll);
         var sortedData = data.auctions.sort(
           (a: Auction, b: Auction) => a.id - b.id,
         );
@@ -38,7 +39,9 @@ export const AdminAuctionsList = () => {
     if (auctions.length === 0) return;
     const fetchNames = async () => {
       const uniqueIds = [...new Set(auctions.map((a) => a.userId))];
-      const names = await Promise.all(uniqueIds.map((id) => getNameById(id)));
+      const names = await Promise.all(
+        uniqueIds.map((id) => getNameById(fetchWithAuth, id)),
+      );
       const map: Record<number, string> = {};
       uniqueIds.forEach((id, i) => (map[id] = names[i].name));
       setUserNames(map);
@@ -48,9 +51,9 @@ export const AdminAuctionsList = () => {
 
   const toggleIsActive = async (id: number, isActive: boolean) => {
     if (isActive) {
-      await deactivateAuction(id);
+      await deactivateAuction(fetchWithAuth, id);
     } else {
-      await reactivateAuction(id);
+      await reactivateAuction(fetchWithAuth, id);
     }
     setAuctions((prev) =>
       prev.map((a) => (a.id === id ? { ...a, isActive: !a.isActive } : a)),

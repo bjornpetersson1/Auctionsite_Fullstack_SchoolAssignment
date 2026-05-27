@@ -7,5 +7,6 @@ namespace Auctionsite_Backend.Core.Interface
     {
         string GenerateAccessToken(User user);
         Task<string> GenerateRefreshToken(User user);
+        Task<(string? AccessToken, string? NewRefreshToken)> RefreshTokens(string refreshToken);
     }
 }

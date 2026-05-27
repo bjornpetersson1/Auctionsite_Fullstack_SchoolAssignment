@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { newUserPayload } from "../types/authTypes";
 import { registerAPI } from "../api/authAPI";
+import { useAuth } from "../context/auth-context";
 
 export const Register = () => {
+  const { fetchWithAuth } = useAuth();
   const [newUser, setNewUser] = useState<newUserPayload>({
     name: "",
     email: "",
@@ -16,7 +18,7 @@ export const Register = () => {
   const registerNewUser = async () => {
     if (!newUser) return;
     if (newUser.password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Lösenorden matchar inte");
       return;
     }
     if (
@@ -24,19 +26,19 @@ export const Register = () => {
       newUser.name === "" ||
       newUser.password === ""
     ) {
-      setError("Some fields are empty");
+      setError("Något fält är tomt");
       return;
     }
-    await registerAPI(newUser);
+    await registerAPI(fetchWithAuth, newUser);
     navigate("/login");
   };
   return (
     <div className="form-view">
-      <h3>Register new user</h3>
-      <h4>Name</h4>
+      <h3>Registrera ny användare</h3>
+      <h4>Namn</h4>
       <input
         type="text"
-        placeholder="Name"
+        placeholder="Namn"
         onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
       ></input>
       <h4>Email</h4>
@@ -45,21 +47,23 @@ export const Register = () => {
         placeholder="Email"
         onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
       ></input>
-      <h4>Password</h4>
+      <h4>Lösenord</h4>
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Lösenord"
         onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
       ></input>
-      <h4>Confirm password</h4>
+      <h4>Bekräfta lösenord</h4>
       <input
         type="password"
-        placeholder="Confirm password"
+        placeholder="Bekräfta lösenord"
         onChange={(e) => setConfirmPassword(e.target.value)}
       ></input>
       {error && <p>{error}</p>}
-      <button onClick={registerNewUser}>Register</button>
-      <button onClick={() => navigate("/login")}>Cancel</button>
+      <div className="boolButtons">
+        <button onClick={registerNewUser}>Registrera</button>
+        <button onClick={() => navigate("/login")}>Avbryt</button>
+      </div>
     </div>
   );
 };

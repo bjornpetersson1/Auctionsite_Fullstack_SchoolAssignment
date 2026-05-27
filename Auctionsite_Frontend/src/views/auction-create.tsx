@@ -3,8 +3,10 @@ import "./form.css";
 import { registerAuction } from "../api/auctionAPI";
 import type { Auction, NewAuctionPayload } from "../types/auctionTypes";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 export const AuctionCreate = () => {
+  const { fetchWithAuth } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [askingPrice, setAskingPrice] = useState(0);
@@ -35,7 +37,10 @@ export const AuctionCreate = () => {
         startDateTime: new Date(startDateTime).toISOString(),
         endDateTime: new Date(endDateTime).toISOString(),
       };
-      const createdAuction: Auction = await registerAuction(auction);
+      const createdAuction: Auction = await registerAuction(
+        fetchWithAuth,
+        auction,
+      );
       setError(null);
       navigate(`/auctions/${createdAuction.id}`);
     } catch (e) {
@@ -45,37 +50,37 @@ export const AuctionCreate = () => {
 
   return (
     <div className="form-view">
-      <h3>Create new auction</h3>
+      <h3>Skapa ny auktion</h3>
       <input
         type="text"
-        placeholder="Title"
+        placeholder="Titel"
         onChange={(e) => setTitle(e.target.value)}
       ></input>
       <input
         type="text"
-        placeholder="Description"
+        placeholder="Beskrivning"
         onChange={(e) => setDescription(e.target.value)}
       ></input>
       <input
         type="number"
-        placeholder="Asking price"
+        placeholder="Minsta godtagbara pris"
         onChange={(e) => setAskingPrice(Number(e.target.value))}
       ></input>
-      <h4>Start date and time</h4>
+      <h4>Startdatum och tid</h4>
       <input
         type="datetime-local"
-        placeholder="start date and time"
+        placeholder="Startdatum och tid"
         onChange={(e) => setStartDateTime(e.target.value)}
       ></input>
-      <h4>End date and time</h4>
+      <h4>Slutdatum och tid</h4>
       <input
         type="datetime-local"
-        placeholder="end date and time"
+        placeholder="Slutdatum och tid"
         onChange={(e) => setEndDateTime(e.target.value)}
       ></input>
       <input
         type="text"
-        placeholder="Picture URL"
+        placeholder="Bild URL"
         onChange={(e) => setImageUrl(e.target.value)}
       ></input>
       <button onClick={() => submitAuction()}>Skapa auktion</button>

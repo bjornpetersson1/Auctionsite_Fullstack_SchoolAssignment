@@ -1,4 +1,5 @@
 ﻿using Auctionsite_Backend.Data.DTO;
+using Auctionsite_Backend.Models;
 
 namespace Auctionsite_Backend.Data.Interface
 {
@@ -8,5 +9,6 @@ namespace Auctionsite_Backend.Data.Interface
         Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
         Task<string?> GetNameById(int id);
         Task<List<UserResponseDTO>> GetAllUsers();
+        Task<User?> GetUserById(int id);
     }
 }

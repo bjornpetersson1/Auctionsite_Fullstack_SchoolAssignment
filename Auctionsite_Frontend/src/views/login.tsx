@@ -5,6 +5,7 @@ import { loginUserAPI } from "../api/authAPI";
 import { useAuth } from "../context/auth-context";
 
 export const Login = () => {
+  const { fetchWithAuth } = useAuth();
   const [loginLoad, setLoginLoad] = useState<loginPayload>({
     email: "",
     password: "",
@@ -15,7 +16,7 @@ export const Login = () => {
 
   const loginUser = async () => {
     try {
-      const response = await loginUserAPI(loginLoad);
+      const response = await loginUserAPI(fetchWithAuth, loginLoad);
       console.log(response);
       login({
         token: null,
@@ -42,13 +43,13 @@ export const Login = () => {
       <h4>Password</h4>
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Lösenord"
         onChange={(e) =>
           setLoginLoad({ ...loginLoad, password: e.target.value })
         }
       ></input>
       {error && <p>{error}</p>}
-      <button onClick={loginUser}>Login</button>
+      <button onClick={loginUser}>Logga in</button>
     </div>
   );
 };

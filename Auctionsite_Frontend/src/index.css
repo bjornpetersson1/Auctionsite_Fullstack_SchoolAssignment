@@ -107,3 +107,8 @@ td {
 tr:nth-child(even) td {
   background: var(--color-mint);
 }
+
+.boolButtons {
+  display: flex;
+  justify-content: space-between;
+}

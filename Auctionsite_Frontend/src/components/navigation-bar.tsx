@@ -7,13 +7,15 @@ export const Navbar = () => {
   return (
     <div className="navbar">
       {user.role === "admin" && <Link to="/admin">Admin</Link>}
-      <Link to="/">Auctions</Link>
+      <Link to="/">Auktioner</Link>
       {user.isAuthenticated && (
-        <Link to="/create-auction">Create new auctions</Link>
+        <Link to="/create-auction">Skapa ny auktion</Link>
       )}
-      {!user.isAuthenticated && <Link to="/login">Login</Link>}
-      {!user.isAuthenticated && <Link to="/register">Register new user</Link>}
-      {user.isAuthenticated && <button onClick={logout}>Logout</button>}
+      {!user.isAuthenticated && <Link to="/login">Logga in</Link>}
+      {!user.isAuthenticated && (
+        <Link to="/register">Registrera ny användare</Link>
+      )}
+      {user.isAuthenticated && <button onClick={logout}>Logga ut</button>}
       {user.isAuthenticated && <h3>{user.userName}</h3>}
     </div>
   );

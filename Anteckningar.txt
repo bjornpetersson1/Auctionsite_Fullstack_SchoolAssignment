@@ -1,0 +1,3 @@
+TODO
+    JWT-arkitektur
+        skumt att det ligger i authRepo nu
