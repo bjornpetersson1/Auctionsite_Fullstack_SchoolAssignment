@@ -1,14 +1,20 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { LoginPayloadContext } from "../types/authTypes";
-import { apiFetch } from "../api/client";
 
 type AuthContextType = {
   user: LoginPayloadContext;
   login: (user: LoginPayloadContext) => void;
   logout: () => void;
+  fetchWithAuth: (path: string, options?: RequestInit) => Promise<any>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+interface fetchOptions extends RequestInit {
+  _retry?: boolean;
+}
+
+const BASE_URL = "https://localhost:5000";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<LoginPayloadContext>({
@@ -20,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   useEffect(() => {
-    apiFetch("/api/Auth/me")
+    fetchWithAuth("/api/Auth/me")
       .then((data) => {
         setUser({
           token: null,
@@ -52,8 +58,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isAuthenticated: false,
     });
   };
+  const fetchWithAuth = async (path: string, options: fetchOptions = {}) => {
+    const response = await fetch(`${BASE_URL}${path}`, {
+      ...options,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    });
+
+    if (response.status === 401 && !options._retry) {
+      const refreshUrl = `${BASE_URL}/api/Auth/refresh`;
+      const refresh = await fetch(refreshUrl, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (refresh.ok) {
+        fetchWithAuth(refreshUrl, { ...options, _retry: true });
+      } else {
+        logout();
+        return;
+      }
+    }
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      throw new Error(body?.message ?? `HTTP ${response.status}`);
+    }
+
+    return response.json();
+  };
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, fetchWithAuth }}>
       {children}
     </AuthContext.Provider>
   );

@@ -11,6 +11,7 @@ import { formatDateTime, formatMsToDate } from "../helpers/auction-helpers";
 import "./auction-details.css";
 
 export const AuctionDetails = () => {
+  const { fetchWithAuth } = useAuth();
   const { id } = useParams();
   const { user } = useAuth();
   const [auction, setAuction] = useState<Auction | undefined>(undefined);
@@ -33,7 +34,7 @@ export const AuctionDetails = () => {
   useEffect(() => {
     const fetchAuction = async () => {
       try {
-        var data = await getAuctionById(Number(id));
+        var data = await getAuctionById(fetchWithAuth, Number(id));
         setAuction(data);
       } catch {
         setError("Gick inte att hitta auktionen");
@@ -47,7 +48,7 @@ export const AuctionDetails = () => {
 
   const fetchBids = async () => {
     try {
-      var data = await getBidsByAuctionId(Number(id));
+      var data = await getBidsByAuctionId(fetchWithAuth, Number(id));
       setBids(data.bids);
     } catch {
       setError("Gick inte att hämta bud");
@@ -56,7 +57,7 @@ export const AuctionDetails = () => {
 
   const handlePlacedBid = async () => {
     try {
-      await placeBid(Number(id), bid);
+      await placeBid(fetchWithAuth, Number(id), bid);
       await fetchBids();
       setError(null);
     } catch (e) {
@@ -66,15 +67,6 @@ export const AuctionDetails = () => {
 
   if (loading) return <div className="spinner" />;
   if (auction !== undefined) {
-    console.log("bid form debug", {
-      isAuthenticated: user.isAuthenticated,
-      userIdRaw: user.userId,
-      userIdConverted: Number(user.userId),
-      auctionUserId: auction.userId,
-      userIsNotCreator: Number(user.userId) !== auction.userId,
-      isActive: auction.isActive,
-      isOpen: auction.isOpen,
-    });
     return (
       <div className="auction-details">
         <img src={auction.imageUrl} alt={auction.title} />

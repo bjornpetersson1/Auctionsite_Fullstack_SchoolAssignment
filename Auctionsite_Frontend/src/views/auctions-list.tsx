@@ -6,6 +6,7 @@ import { AuctionCard } from "../components/auction-card";
 import "./auction-list.css";
 
 export const AuctionsList = () => {
+  const { fetchWithAuth } = useAuth();
   const { user } = useAuth();
   const [auctions, setAuctions] = useState<Auction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,14 +15,13 @@ export const AuctionsList = () => {
 
   useEffect(() => {
     const fetchBids = async () => {
-      var data = await getAllBids();
+      var data = await getAllBids(fetchWithAuth);
       console.log(data);
       setBids(data.bids);
     };
     const fetchAuctions = async () => {
-      const includeAll = user.role === "admin";
       try {
-        var data = await getAuctionList(includeAll);
+        var data = await getAuctionList(fetchWithAuth, false);
         setAuctions(data.auctions);
       } catch {
         setError("Kunde inte hämta några auktioner.");
@@ -38,7 +38,7 @@ export const AuctionsList = () => {
   if (auctions.length === 0) return <p>Inga auktioner tillgängliga just nu</p>;
   return (
     <div>
-      <h3>Auctions</h3>
+      <h3>Auktioner</h3>
       <div className="auctions-list">
         <ul className="auctions-grid">
           {auctions.map((auction) => (

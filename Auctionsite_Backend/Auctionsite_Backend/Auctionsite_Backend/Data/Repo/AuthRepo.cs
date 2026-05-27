@@ -124,5 +124,20 @@ namespace Auctionsite_Backend.Data.Repo
             return users;
 
         }
+
+        public async Task<User?> GetUserById(int id)
+        {
+            var response = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+            if(response == null) return null;
+            //var user = new UserResponseDTO()
+            //{
+            //    Id = response.Id,
+            //    Name = response.Name,
+            //    Email = response.Email,
+            //    IsActive = response.IsActive,
+            //    Role = response.Role,
+            //};
+            return response;
+        }
     }
 }

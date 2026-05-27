@@ -5,6 +5,7 @@ import { AdminNavbar } from "../components/admin-header";
 import type { getUserPayload } from "../types/authTypes";
 
 export const AdminUsersList = () => {
+  const { fetchWithAuth } = useAuth();
   const { user } = useAuth();
   const [users, setUsers] = useState<getUserPayload[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,7 +14,7 @@ export const AdminUsersList = () => {
   useEffect(() => {
     const fetchAuctions = async () => {
       try {
-        var data = await getAllUsers();
+        var data = await getAllUsers(fetchWithAuth);
         setUsers(data);
       } catch {
         setError("Kunde inte hämta några användare.");
@@ -26,9 +27,9 @@ export const AdminUsersList = () => {
 
   const toggleIsActive = async (id: number, isActive: boolean) => {
     if (isActive) {
-      await deactivateUser(id);
+      await deactivateUser(fetchWithAuth, id);
     } else {
-      await reactivateUser(id);
+      await reactivateUser(fetchWithAuth, id);
     }
     setUsers((prev) =>
       prev.map((a) => (a.id === id ? { ...a, isActive: !a.isActive } : a)),

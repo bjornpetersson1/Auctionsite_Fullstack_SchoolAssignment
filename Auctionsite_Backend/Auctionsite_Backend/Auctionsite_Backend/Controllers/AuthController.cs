@@ -12,10 +12,12 @@ namespace Auctionsite_Backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IJWTservice _jwtService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IJWTservice jwtService)
         {;
             _authService = authService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -39,17 +41,54 @@ namespace Auctionsite_Backend.Controllers
             if (response.LoginSuccess)
             {
                 Response.Cookies.Append("accessToken", response.AccessToken, new CookieOptions
-                  {
-                      HttpOnly = true,
-                      Secure = true,
-                      SameSite = SameSiteMode.Strict,
-                      Expires =
-                  DateTimeOffset.UtcNow.AddMinutes(4)
-                  });
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(4)
+                });
+                Response.Cookies.Append("refreshtoken", response.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7),
+                });
                 return Ok(response);
             }
             else return BadRequest(new { message = response.ResponseMessage });
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshTokens()
+        {
+            var refreshResponse = Request.Cookies["refreshtoken"];
+            if(refreshResponse == null)
+            {
+                return Unauthorized();
+            }
+            var response = await _jwtService.RefreshTokens(refreshResponse);
+            if (response == (null, null))
+            { 
+                return Unauthorized(); 
+            }
+            Response.Cookies.Append("accessToken", response.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(4)
+            });
+            Response.Cookies.Append("refreshtoken", response.NewRefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddDays(7),
+            });
+            return Ok(response);
+        }
+
         [Authorize]
         [HttpGet("me")]
         public IActionResult Me()

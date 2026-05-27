@@ -6,8 +6,8 @@ export const AdminNavbar = () => {
   const { user } = useAuth();
   return (
     <div className="admin-navbar">
-      {user.role === "admin" && <Link to="/admin/auctions">Auctions</Link>}
-      {user.role === "admin" && <Link to="/admin/users">Users</Link>}
+      {user.role === "admin" && <Link to="/admin/auctions">Auktioner</Link>}
+      {user.role === "admin" && <Link to="/admin/users">Användare</Link>}
     </div>
   );
 };
