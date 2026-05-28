@@ -23,12 +23,6 @@ function App() {
           <Route path="/auctions/:id" element={<AuctionDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route element={<ProtectedRoute />}>
-            <Route
-              path="/create-auction/:id?"
-              element={<AuctionCreateAndEdit />}
-            />
-          </Route> */}
           <Route element={<ProtectedRoute />}>
             <Route
               path="/create-auction"
