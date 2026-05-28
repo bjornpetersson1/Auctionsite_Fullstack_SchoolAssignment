@@ -8,6 +8,12 @@
   background: var(--color-peach);
 }
 
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 .spinner {
   width: 40px;
   height: 40px;
@@ -111,4 +117,68 @@ tr:nth-child(even) td {
 .boolButtons {
   display: flex;
   justify-content: space-between;
+}
+
+.search-container {
+  position: relative;
+  display: inline-flex;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  min-width: 100%;
+  border: 2px solid var(--color-lavender-dark);
+  box-shadow: 4px 4px 0 var(--color-lavender-dark);
+  background: var(--color-peach);
+}
+
+.search-dropdown table {
+  margin: 0;
+  width: 100%;
+}
+
+.search-dropdown tr {
+  cursor: pointer;
+}
+
+.search-dropdown tr:hover td {
+  background: var(--color-strawberry);
+}
+
+.search-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-lavender-dark);
+  background: var(--color-lavender);
+  border: 2px solid var(--color-lavender-dark);
+}
+
+.search-checkbox-label input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-lavender-dark);
+  box-shadow: 2px 2px 0 var(--color-lavender-dark);
+  background: var(--color-peach);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.search-checkbox-label input[type="checkbox"]:checked {
+  background: var(--color-lavender-dark);
+}
+
+.search-checkbox-label input[type="checkbox"]:checked::after {
+  content: "✓";
+  display: block;
+  color: var(--color-strawberry);
+  font-size: 14px;
+  text-align: center;
+  line-height: 16px;
 }

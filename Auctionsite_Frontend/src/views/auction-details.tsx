@@ -65,7 +65,12 @@ export const AuctionDetails = () => {
     }
   };
 
-  if (loading) return <div className="spinner" />;
+  if (loading)
+    return (
+      <div className="spinner-wrapper">
+        <div className="spinner" />
+      </div>
+    );
   if (auction !== undefined) {
     return (
       <div className="auction-details">

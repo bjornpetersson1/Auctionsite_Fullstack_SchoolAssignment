@@ -71,3 +71,14 @@ export const reactivateAuction = async (
     method: "PATCH",
   });
 };
+
+export const getAuctionsListFromQuery = async (
+  fetchWithAuth: ApiFetch,
+  query: string,
+  includeClosed: boolean = false,
+) => {
+  const result = await fetchWithAuth(
+    `/api/auctions/search-auctions?query=${encodeURIComponent(query)}&includeClosed=${includeClosed}`,
+  );
+  return result?.auctions ?? [];
+};

@@ -344,5 +344,37 @@ namespace Auctionsite_Backend.Data.Repo
                 };
             }
         }
+
+        public async Task<AuctionListDTO?> GetAuctionsListFromQuery(string query, bool includeClosed)
+        {
+            var result = new List<Auction>();
+            if(includeClosed == false)
+            {
+                result = await _dbContext.Auctions.Where(a => a.Title.Contains(query) && a.IsOpen == true).ToListAsync();
+            }
+            else
+            {
+                result = await _dbContext.Auctions.Where(a => a.Title.Contains(query) && (a.EndDateTime < DateTime.UtcNow || a.IsOpen == true)).ToListAsync();
+            }
+            var searchResult = new AuctionListDTO();
+            foreach (var item in result)
+            {
+                searchResult.Auctions.Add(new AuctionDTO
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Description = item.Description,
+                    UserId = item.UserId,
+                    AskingPrice = item.AskingPrice,
+                    ImageUrl = item.ImageUrl,
+                    StartDateTime = item.StartDateTime,
+                    EndDateTime = item.EndDateTime,
+                    IsActive = item.IsActive,
+                    IsOpen = item.IsOpen,
+                });
+            }
+            return searchResult;
+
+        }
     }
 }

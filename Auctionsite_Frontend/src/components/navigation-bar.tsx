@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./navigation-bar.css";
 import { useAuth } from "../context/auth-context";
+import { AuctionSearchBar } from "./search-bar";
 
 export const Navbar = () => {
   const { user, logout } = useAuth();
@@ -17,6 +18,8 @@ export const Navbar = () => {
       )}
       {user.isAuthenticated && <button onClick={logout}>Logga ut</button>}
       {user.isAuthenticated && <h3>{user.userName}</h3>}
+
+      <AuctionSearchBar />
     </div>
   );
 };

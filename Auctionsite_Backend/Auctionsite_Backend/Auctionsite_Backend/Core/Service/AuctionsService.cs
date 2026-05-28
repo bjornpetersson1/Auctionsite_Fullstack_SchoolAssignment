@@ -55,5 +55,10 @@ namespace Auctionsite_Backend.Core.Service
             return response;
         }
 
+        public async Task<AuctionListDTO?> GetAuctionsListFromQuery(string query, bool includeClosed)
+        {
+            var response = await _auctionsRepo.GetAuctionsListFromQuery(query, includeClosed);
+            return response;
+        }
     }
 }
