@@ -97,18 +97,30 @@ export const ProfilePage = () => {
       <input
         type="password"
         placeholder="Tidigare lösenord"
+        autoComplete="current-password"
         onChange={(e) => setOldPassword(e.target.value)}
       ></input>
+      <input
+        type="text"
+        autoComplete="username"
+        value={user.userName ?? ""}
+        readOnly
+        style={{
+          display: "none",
+        }}
+      />
       <h4>Nytt lösenord</h4>
       <input
         type="password"
         placeholder="Nytt lösenord"
+        autoComplete="new-password"
         onChange={(e) => setNewPassword(e.target.value)}
       ></input>
       <h4>Bekräfta nytt lösenord</h4>
       <input
         type="password"
         placeholder="Bekräfta nytt lösenord"
+        autoComplete="new-password"
         onChange={(e) => setConfirmNewPassword(e.target.value)}
       ></input>
       <button onClick={handleNewPassword}>Uppdatera lösenord</button>

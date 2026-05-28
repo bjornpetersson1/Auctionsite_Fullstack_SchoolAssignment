@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
+  deleteLatestBid,
   getAuctionById,
   getBidsByAuctionId,
   placeBid,
@@ -69,6 +70,15 @@ export const AuctionDetails = () => {
       setError(e instanceof Error ? e.message : "Något gick fel");
     }
   };
+  const handleDeleteBid = async () => {
+    try {
+      await deleteLatestBid(fetchWithAuth, Number(id));
+      await fetchBids();
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Något gick fel");
+    }
+  };
 
   if (loading)
     return (
@@ -105,6 +115,9 @@ export const AuctionDetails = () => {
                 onChange={(e) => setBid(Number(e.target.value))}
               ></input>
               <button onClick={() => handlePlacedBid()}>Lägg bud</button>
+              {bids.length > 0 && Number(user.userId) === bids[0].userId && (
+                <button onClick={handleDeleteBid}>Ångra senaste bud</button>
+              )}
               <p className="bid-error">{error}</p>
             </div>
           )}

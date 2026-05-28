@@ -53,7 +53,7 @@ export const AuctionSearchBar = () => {
     <div className="search-container" ref={containerRef}>
       <input
         type="text"
-        autoComplete="username"
+        autoComplete="new-password"
         value={user.userName ?? ""}
         readOnly
         style={{
@@ -62,7 +62,6 @@ export const AuctionSearchBar = () => {
       />
       <input
         type="text"
-        autoComplete="new-password"
         placeholder="sök efter auktioner"
         onChange={(e) => setQuery(e.target.value)}
       ></input>

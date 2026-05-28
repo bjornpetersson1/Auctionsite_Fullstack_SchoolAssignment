@@ -299,7 +299,11 @@ namespace Auctionsite_Backend.Data.Repo
             
             original.Title = auction.Title;
             original.Description = auction.Description;
-            original.AskingPrice = auction.AskingPrice;
+            var hasBids = await _dbContext.Bids.AnyAsync(b => b.AuctionId == auction.Id);
+            if (!hasBids)
+            {
+                original.AskingPrice = auction.AskingPrice;
+            }
             original.ImageUrl = auction.ImageUrl;
             original.StartDateTime = auction.StartDateTime;
             original.EndDateTime = auction.EndDateTime;
@@ -398,6 +402,23 @@ namespace Auctionsite_Backend.Data.Repo
                 });
             }
             return myAuctions;
+        }
+
+        public async Task<bool> DeleteLatestBid(int auctionId, int userId)
+        {
+            var auction = await _dbContext.Auctions.FirstOrDefaultAsync(a => a.Id == auctionId);
+            if (auction == null || !auction.IsOpen) return false;
+
+            var latestBid = await _dbContext.Bids
+                .Where(b => b.AuctionId == auctionId)
+                .OrderByDescending(b => b.Amount)
+                .FirstOrDefaultAsync();
+
+            if (latestBid == null || latestBid.UserId != userId) return false;
+
+            _dbContext.Bids.Remove(latestBid);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -104,3 +104,23 @@ export const putEditAuction = async (
   });
   return result;
 };
+
+export const deleteLatestBid = async (
+  fetchWithAuth: ApiFetch,
+  auctionId: number,
+) => {
+  return await fetchWithAuth(`/api/auctions/${auctionId}/bids`, {
+    method: "DELETE",
+  });
+};
+
+export const deleteAuction = async (
+  fetchWithAuth: ApiFetch,
+  auctionId: number,
+  createrId: number,
+) => {
+  return await fetchWithAuth(`/api/auctions`, {
+    method: "DELETE",
+    body: JSON.stringify({ auctionID: auctionId, createrId }),
+  });
+};

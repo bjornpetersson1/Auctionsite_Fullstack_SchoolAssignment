@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./form.css";
 import {
+  deleteAuction,
   getAuctionById,
   getBidsByAuctionId,
   putEditAuction,
@@ -54,41 +55,6 @@ export const AuctionCreateAndEdit = () => {
     };
     if (isEditing) fetchData();
   }, [isEditing]);
-  // useEffect(() => {
-  //   const fetchAuction = async () => {
-  //     try {
-  //       const data: Auction = await getAuctionById(fetchWithAuth, Number(id));
-  //       setAuction(data);
-  //       setTitle(data.title);
-  //       setDescription(data.description);
-  //       setAskingPrice(data.askingPrice);
-  //       setStartDateTime(
-  //         toUtcDate(data.startDateTime).toISOString().substring(0, 16),
-  //       );
-  //       setEndDateTime(
-  //         toUtcDate(data.endDateTime).toISOString().substring(0, 16),
-  //       );
-  //       setImageUrl(data.imageUrl);
-  //     } catch (error) {
-  //       setError("Kunde inte hämta auktionsinfo");
-  //     }
-  //   };
-  //   if (isEditing) fetchAuction();
-  // }, [isEditing]);
-  // useEffect(() => {
-  //   const fetchBids = async () => {
-  //     try {
-  //       const bidsData = await getBidsByAuctionId(
-  //         fetchWithAuth,
-  //         Number(auction?.id),
-  //       );
-  //       setHasBids((bidsData?.bids?.length ?? 0) > 0);
-  //     } catch (error) {
-  //       setError("Kunde inte hämta budinfo");
-  //     }
-  //   };
-  //   if (isEditing) fetchBids();
-  // }, [auction]);
 
   const submitAuction = async () => {
     if (
@@ -140,6 +106,16 @@ export const AuctionCreateAndEdit = () => {
       setError(e instanceof Error ? e.message : "Något gick fel");
     }
   };
+  const handleDeleteAuction = async () => {
+    if (!window.confirm("Är du säker på att du vill ta bort auktionen?"))
+      return;
+    try {
+      await deleteAuction(fetchWithAuth, Number(id), Number(user.userId));
+      navigate("/");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Något gick fel");
+    }
+  };
 
   return (
     <div className="form-view">
@@ -171,14 +147,14 @@ export const AuctionCreateAndEdit = () => {
       <input
         type="datetime-local"
         placeholder="Startdatum och tid"
-        defaultValue={auction?.startDateTime ?? ""}
+        defaultValue={startDateTime}
         onChange={(e) => setStartDateTime(e.target.value)}
       ></input>
       <h4>Slutdatum och tid</h4>
       <input
         type="datetime-local"
         placeholder="Slutdatum och tid"
-        defaultValue={auction?.endDateTime ?? ""}
+        defaultValue={endDateTime}
         onChange={(e) => setEndDateTime(e.target.value)}
       ></input>
       <h4>Bild URL</h4>
@@ -188,9 +164,27 @@ export const AuctionCreateAndEdit = () => {
         defaultValue={auction?.imageUrl ?? ""}
         onChange={(e) => setImageUrl(e.target.value)}
       ></input>
-      <button onClick={isEditing ? () => editAuction() : () => submitAuction()}>
-        {isEditing ? "Uppdatera auktion" : "Skapa auktion"}
-      </button>
+      <div className="boolButtons">
+        <button
+          onClick={isEditing ? () => editAuction() : () => submitAuction()}
+        >
+          {isEditing ? "Uppdatera auktion" : "Skapa auktion"}
+        </button>
+        {isEditing && (
+          <button
+            disabled={hasBids}
+            className="delete-button"
+            onClick={handleDeleteAuction}
+          >
+            Radera auktion
+          </button>
+        )}
+      </div>
+      {hasBids && (
+        <p style={{ textAlign: "right" }}>
+          Kan inte radera auktion efter att bud lagts
+        </p>
+      )}
       {error && <p>{error}</p>}
     </div>
   );

@@ -16,5 +16,6 @@ namespace Auctionsite_Backend.Core.Interface
         Task<DeleteAuctionResponseDTO> DeleteAuction(DeleteAuctionDTO auction);
         Task<AuctionListDTO?> GetAuctionsListFromQuery(string query, bool includeClosed);
         Task<AuctionListDTO?> GetMyAuctions(int userId);
+        Task<bool> DeleteLatestBid(int auctionId, int userId);
     }
 }

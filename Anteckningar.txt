@@ -1,10 +1,3 @@
 TODO
-    - Sökfunktion
-        Sök på bara öppna eller både öppna och stängda auktioner
-    - Stängda auktioner visar bara info och vinnande bud
-        Går heller inte att lägga bud på
-    - Uppdatera lösenord funktionalitet
-
-
     JWT-arkitektur
         skumt att det ligger i authRepo nu
