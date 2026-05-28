@@ -139,18 +139,29 @@ namespace Auctionsite_Backend.Controllers
 
         }
 
-        private int GetUserIdFromJWT()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null) return 0;
-            else return int.Parse(userId);
-        }
 
         [HttpGet("search-auctions")]
         public async Task<IActionResult> GetAuctionsListFromQuery([FromQuery] string query, [FromQuery] bool includeClosed = false)
         {
             var response = await _auctionsService.GetAuctionsListFromQuery(query, includeClosed);
             return Ok(response);
+        }
+
+        [Authorize("UserOrAdmin")]
+        [RequireActiveUser]
+        [HttpGet("my-auctions")]
+        public async Task<IActionResult> GetMyAuctions()
+        {
+            var userId = GetUserIdFromJWT();
+            if (userId == 0) return BadRequest("No user found");
+            var response = await _auctionsService.GetMyAuctions(userId);
+            return Ok(response);
+        }
+        private int GetUserIdFromJWT()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return 0;
+            else return int.Parse(userId);
         }
     }
 }

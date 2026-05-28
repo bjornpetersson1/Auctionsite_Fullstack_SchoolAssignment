@@ -60,5 +60,11 @@ namespace Auctionsite_Backend.Core.Service
             var response = await _auctionsRepo.GetAuctionsListFromQuery(query, includeClosed);
             return response;
         }
+
+        public async Task<AuctionListDTO?> GetMyAuctions(int userId)
+        {
+            var response = await _auctionsRepo.GetMyAuctions(userId);
+            return response;
+        }
     }
 }

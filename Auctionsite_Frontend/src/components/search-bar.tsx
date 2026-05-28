@@ -52,6 +52,7 @@ export const AuctionSearchBar = () => {
     <div className="search-container" ref={containerRef}>
       <input
         type="text"
+        autoComplete="off"
         placeholder="sök efter auktioner"
         onChange={(e) => setQuery(e.target.value)}
       ></input>

@@ -79,6 +79,9 @@ export const AuctionDetails = () => {
         <p>Säljar-id: {auction.userId}</p>
         <p>{auction.description}</p>
         <p>Avslutas om: {formatMsToDate(timeRemaining)}</p>
+        {!auction.isOpen && new Date(auction.startDateTime) > new Date() && (
+          <p>Auktionen har inte startat än</p>
+        )}
         {user.isAuthenticated &&
           Number(user.userId) !== auction.userId &&
           auction.isActive &&
@@ -104,13 +107,14 @@ export const AuctionDetails = () => {
             ))}
           </ul>
         )}
-        {!auction.isOpen && (
+        {!auction.isOpen && new Date(auction.startDateTime) <= new Date() && (
           <div>
             {bids.length > 0 ? (
               <ul className="bids-list">
                 <li className="bid-item">
                   <p>{bids[0].amount} kr</p>
                   <p>{bids[0].bidderName}</p>
+
                   <p>{formatDateTime(bids[0].placedAt)}</p>
                 </li>
               </ul>

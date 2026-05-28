@@ -82,3 +82,11 @@ export const getAuctionsListFromQuery = async (
   );
   return result?.auctions ?? [];
 };
+
+export const getMyAuctions = async (fetchWithAuth: ApiFetch) => {
+  const result = await fetchWithAuth(`/api/auctions/my-auctions`, {
+    method: "GET",
+  });
+
+  return result?.auctions ?? [];
+};
