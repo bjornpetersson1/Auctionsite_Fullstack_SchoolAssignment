@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   getAuctionById,
@@ -7,7 +7,11 @@ import {
 } from "../api/auctionAPI";
 import { useAuth } from "../context/auth-context";
 import type { Auction, Bid } from "../types/auctionTypes";
-import { formatDateTime, formatMsToDate } from "../helpers/auction-helpers";
+import {
+  formatDateTime,
+  formatMsToDate,
+  toUtcDate,
+} from "../helpers/auction-helpers";
 import "./auction-details.css";
 
 export const AuctionDetails = () => {
@@ -20,11 +24,12 @@ export const AuctionDetails = () => {
   const [bids, setBids] = useState<Bid[]>([]);
   const [bid, setBid] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (auction) {
       const interval = setInterval(() => {
-        setTimeRemaining(new Date(auction.endDateTime).getTime() - Date.now());
+        setTimeRemaining(toUtcDate(auction.endDateTime).getTime() - Date.now());
       }, 1000);
 
       return () => clearInterval(interval);
@@ -75,10 +80,20 @@ export const AuctionDetails = () => {
     return (
       <div className="auction-details">
         <img src={auction.imageUrl} alt={auction.title} />
-        <h3>{auction.title}</h3>
+        <div className="boolButtons">
+          <h3>{auction.title}</h3>
+          {user.userId == auction.userId && (
+            <button onClick={() => navigate(`/create-auction/${auction.id}`)}>
+              Redigera auktion
+            </button>
+          )}
+        </div>
         <p>Säljar-id: {auction.userId}</p>
         <p>{auction.description}</p>
         <p>Avslutas om: {formatMsToDate(timeRemaining)}</p>
+        {!auction.isOpen && toUtcDate(auction.startDateTime) > new Date() && (
+          <p>Auktionen har inte startat än</p>
+        )}
         {user.isAuthenticated &&
           Number(user.userId) !== auction.userId &&
           auction.isActive &&
@@ -104,13 +119,14 @@ export const AuctionDetails = () => {
             ))}
           </ul>
         )}
-        {!auction.isOpen && (
+        {!auction.isOpen && toUtcDate(auction.startDateTime) <= new Date() && (
           <div>
             {bids.length > 0 ? (
               <ul className="bids-list">
                 <li className="bid-item">
                   <p>{bids[0].amount} kr</p>
                   <p>{bids[0].bidderName}</p>
+
                   <p>{formatDateTime(bids[0].placedAt)}</p>
                 </li>
               </ul>

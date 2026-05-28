@@ -158,7 +158,8 @@ tr:nth-child(even) td {
   cursor: pointer;
 }
 
-.search-dropdown tr:hover td {
+.search-dropdown tr:hover td,
+.admin-auctions tr:hover td {
   background: var(--color-strawberry);
 }
 

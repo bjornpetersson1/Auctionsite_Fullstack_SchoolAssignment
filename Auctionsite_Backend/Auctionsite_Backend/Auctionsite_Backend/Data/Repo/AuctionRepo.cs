@@ -311,6 +311,7 @@ namespace Auctionsite_Backend.Data.Repo
                 return new EditAuctionResponseDTO
                 {
                     Message = "success",
+                    Id = original.Id,
                     EditedAt = original.EditedAt
                 };
             }
@@ -374,7 +375,29 @@ namespace Auctionsite_Backend.Data.Repo
                 });
             }
             return searchResult;
+        }
 
+        public async Task<AuctionListDTO?> GetMyAuctions(int userId)
+        {
+            var auctions = await _dbContext.Auctions.Where(a => a.UserId == userId).ToListAsync();
+            var myAuctions = new AuctionListDTO();
+            foreach (var auction in auctions)
+            {
+                myAuctions.Auctions.Add(new AuctionDTO
+                {
+                    Id = auction.Id,
+                    Title = auction.Title,
+                    Description = auction.Description,
+                    UserId = auction.UserId,
+                    AskingPrice = auction.AskingPrice,
+                    ImageUrl = auction.ImageUrl,
+                    StartDateTime = auction.StartDateTime,
+                    EndDateTime = auction.EndDateTime,
+                    IsActive = auction.IsActive,
+                    IsOpen = auction.IsOpen,
+                });
+            }
+            return myAuctions;
         }
     }
 }

@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         credentials: "include",
       });
       if (refresh.ok) {
-        fetchWithAuth(refreshUrl, { ...options, _retry: true });
+        return await fetchWithAuth(path, { ...options, _retry: true });
       } else {
         logout();
         return;
