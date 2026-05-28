@@ -82,8 +82,8 @@ export const AuctionSearchBar = () => {
                   onClick={() => handleResultClick(auction.id)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{formatString(auction.title, 18)}</td>
-                  <td>{auction.endDateTime.substring(5, 10)}</td>
+                  <td>{formatString(auction.title, 22)}</td>
+                  <td>{auction.endDateTime.substring(0, 10)}</td>
                   <td>{auction.isOpen ? "Öppen" : "Avslutad"}</td>
                 </tr>
               ))}

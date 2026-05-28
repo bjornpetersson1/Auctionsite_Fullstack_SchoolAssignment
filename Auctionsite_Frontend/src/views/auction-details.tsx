@@ -93,15 +93,32 @@ export const AuctionDetails = () => {
               <p className="bid-error">{error}</p>
             </div>
           )}
-        <ul className="bids-list">
-          {bids.map((bid) => (
-            <li key={bid.id} className="bid-item">
-              <p>{bid.amount} kr</p>
-              <p>{bid.bidderName}</p>
-              <p>{formatDateTime(bid.placedAt)}</p>
-            </li>
-          ))}
-        </ul>
+        {auction.isOpen && (
+          <ul className="bids-list">
+            {bids.map((bid) => (
+              <li key={bid.id} className="bid-item">
+                <p>{bid.amount} kr</p>
+                <p>{bid.bidderName}</p>
+                <p>{formatDateTime(bid.placedAt)}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!auction.isOpen && (
+          <div>
+            {bids.length > 0 ? (
+              <ul className="bids-list">
+                <li className="bid-item">
+                  <p>{bids[0].amount} kr</p>
+                  <p>{bids[0].bidderName}</p>
+                  <p>{formatDateTime(bids[0].placedAt)}</p>
+                </li>
+              </ul>
+            ) : (
+              <p>Inga bud lades på denna auktion</p>
+            )}
+          </div>
+        )}
       </div>
     );
   } else {

@@ -497,7 +497,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-61).AddHours(-7),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Weber Summit grill",
@@ -510,7 +510,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-192),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Polaroid SX-70 Land Camera",
@@ -523,7 +523,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-238).AddHours(-9),
         editedAt: DateTime.Now.AddDays(-237),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Handvävd silkeskimono",
@@ -536,7 +536,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-111).AddHours(-12),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Märklin modelltåg set",
@@ -549,7 +549,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-289).AddHours(-9),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Olympus OM-1 filmkamera",
@@ -562,7 +562,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-312).AddHours(-3),
         editedAt: DateTime.Now.AddDays(-310),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Antik mässingsteleskop",
@@ -575,7 +575,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-32).AddHours(-12),
         editedAt: DateTime.Now.AddDays(-29),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Pelican 1650 kameraväska",
@@ -588,7 +588,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-108).AddHours(-2),
         editedAt: DateTime.Now.AddDays(-106),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Vintage Burberry trenchcoat",
@@ -601,7 +601,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-262).AddHours(-9),
         editedAt: DateTime.Now.AddDays(-260),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Sonos Arc soundbar",
@@ -614,7 +614,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-316).AddHours(-12),
         editedAt: DateTime.Now.AddDays(-315),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Trek Domane SL 6 cykel",
@@ -627,7 +627,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-336).AddHours(-1),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Hasselblad 500 C/M",
@@ -640,7 +640,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-226).AddHours(-10),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Antik kartor Sverige 1750",
@@ -653,7 +653,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-307).AddHours(-4),
         editedAt: DateTime.Now.AddDays(-306),
         isOpen: false,
-        isActive: false
+        isActive: true
     ),
     (
         title: "Marshall Woburn III högtalare",
@@ -666,7 +666,7 @@ namespace Auctionsite_Backend.Data.Seeders
         createdAt: DateTime.Now.AddDays(-323).AddHours(-12),
         editedAt: null,
         isOpen: false,
-        isActive: false
+        isActive: true
     )
 };
 
