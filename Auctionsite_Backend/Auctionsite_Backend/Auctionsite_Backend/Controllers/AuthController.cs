@@ -89,7 +89,7 @@ namespace Auctionsite_Backend.Controllers
             return Ok(response);
         }
 
-        [Authorize]
+        [Authorize("UserOrAdmin")]
         [HttpGet("me")]
         public IActionResult Me()
         {
@@ -132,6 +132,21 @@ namespace Auctionsite_Backend.Controllers
         {
             var response = await _authService.GetAllUsers();
             return Ok(response);
+        }
+        [Authorize("UserOrAdmin")]
+        [HttpPatch("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDTO dto)
+        {
+            if (dto.NewPassword.Length > 0)
+            {
+                var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (idClaim == null) return Unauthorized();
+                var id = int.Parse(idClaim);
+                var response = await _authService.UpdatePassword(id, dto.OldPassword, dto.NewPassword);
+                if (response == true) return Ok();
+                else return BadRequest("Felaktigt lösenord");
+            }
+            else return BadRequest();
         }
     }
 }

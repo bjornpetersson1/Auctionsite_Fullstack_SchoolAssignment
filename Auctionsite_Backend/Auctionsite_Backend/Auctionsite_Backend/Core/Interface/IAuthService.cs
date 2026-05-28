@@ -8,5 +8,6 @@ namespace Auctionsite_Backend.Core.Interface
         Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
         Task<string?> GetNameById(int id);
         Task<List<UserResponseDTO>> GetAllUsers();
+        Task<bool> UpdatePassword(int userId, string oldPassword, string newPassword);
     }
 }

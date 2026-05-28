@@ -53,3 +53,15 @@ export const refreshToken = async (fetchWithAuth: ApiFetch) => {
     method: "POST",
   });
 };
+
+export const updatePassword = async (
+  fetchWithAuth: ApiFetch,
+  oldPassword: string,
+  newPassword: string,
+) => {
+  return await fetchWithAuth("/api/Auth/update-password", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ oldPassword, newPassword }),
+  });
+};

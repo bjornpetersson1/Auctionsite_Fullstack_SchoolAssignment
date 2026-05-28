@@ -10,5 +10,6 @@ namespace Auctionsite_Backend.Data.Interface
         Task<string?> GetNameById(int id);
         Task<List<UserResponseDTO>> GetAllUsers();
         Task<User?> GetUserById(int id);
+        Task<bool> UpdatePassword(int userId, string oldPassword, string newPassword);
     }
 }

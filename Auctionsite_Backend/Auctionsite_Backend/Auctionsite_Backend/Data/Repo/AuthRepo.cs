@@ -129,15 +129,22 @@ namespace Auctionsite_Backend.Data.Repo
         {
             var response = await dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
             if(response == null) return null;
-            //var user = new UserResponseDTO()
-            //{
-            //    Id = response.Id,
-            //    Name = response.Name,
-            //    Email = response.Email,
-            //    IsActive = response.IsActive,
-            //    Role = response.Role,
-            //};
             return response;
+        }
+
+        public async Task<bool> UpdatePassword(int userId, string oldPassword, string newPassword)
+        {
+            var userResponse = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (userResponse == null) return false;
+            
+
+            if (BC.Verify(oldPassword, userResponse.PasswordHash))
+            {
+                BC.HashPassword(newPassword, workFactor: 12);
+                await dbContext.SaveChangesAsync();
+                return true;
+            }
+            else return false;
         }
     }
 }
