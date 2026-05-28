@@ -354,7 +354,7 @@ namespace Auctionsite_Backend.Data.Repo
             }
             else
             {
-                result = await _dbContext.Auctions.Where(a => a.Title.Contains(query)).ToListAsync();
+                result = await _dbContext.Auctions.Where(a => a.Title.Contains(query) && (a.EndDateTime < DateTime.UtcNow || a.IsOpen == true)).ToListAsync();
             }
             var searchResult = new AuctionListDTO();
             foreach (var item in result)

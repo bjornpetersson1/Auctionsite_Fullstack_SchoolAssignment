@@ -77,7 +77,8 @@ export const getAuctionsListFromQuery = async (
   query: string,
   includeClosed: boolean = false,
 ) => {
-  return await fetchWithAuth(
-    `/api/auctions/search?query=${encodeURIComponent(query)}&includeClosed=${includeClosed}`,
+  const result = await fetchWithAuth(
+    `/api/auctions/search-auctions?query=${encodeURIComponent(query)}&includeClosed=${includeClosed}`,
   );
+  return result?.auctions ?? [];
 };

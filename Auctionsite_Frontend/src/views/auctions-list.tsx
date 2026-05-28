@@ -33,7 +33,12 @@ export const AuctionsList = () => {
     fetchAuctions();
   }, [user.role]);
 
-  if (loading) return <div className="spinner" />;
+  if (loading)
+    return (
+      <div className="spinner-wrapper">
+        <div className="spinner" />
+      </div>
+    );
   if (error) return <p>{error}</p>;
   if (auctions.length === 0) return <p>Inga auktioner tillgängliga just nu</p>;
   return (

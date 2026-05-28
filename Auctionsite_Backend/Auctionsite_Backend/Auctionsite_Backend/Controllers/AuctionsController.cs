@@ -146,7 +146,7 @@ namespace Auctionsite_Backend.Controllers
             else return int.Parse(userId);
         }
 
-        [HttpGet("search-auction")]
+        [HttpGet("search-auctions")]
         public async Task<IActionResult> GetAuctionsListFromQuery([FromQuery] string query, [FromQuery] bool includeClosed = false)
         {
             var response = await _auctionsService.GetAuctionsListFromQuery(query, includeClosed);
