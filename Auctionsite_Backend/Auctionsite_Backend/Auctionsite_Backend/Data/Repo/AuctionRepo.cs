@@ -299,7 +299,11 @@ namespace Auctionsite_Backend.Data.Repo
             
             original.Title = auction.Title;
             original.Description = auction.Description;
-            original.AskingPrice = auction.AskingPrice;
+            var hasBids = await _dbContext.Bids.AnyAsync(b => b.AuctionId == auction.Id);
+            if (!hasBids)
+            {
+                original.AskingPrice = auction.AskingPrice;
+            }
             original.ImageUrl = auction.ImageUrl;
             original.StartDateTime = auction.StartDateTime;
             original.EndDateTime = auction.EndDateTime;
