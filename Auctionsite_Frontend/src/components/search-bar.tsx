@@ -3,7 +3,7 @@ import { type Auction } from "../types/auctionTypes";
 import { useAuth } from "../context/auth-context";
 import { getAuctionsListFromQuery } from "../api/auctionAPI";
 import { useNavigate } from "react-router-dom";
-import { formatString } from "../helpers/auction-helpers";
+import { formatString, toUtcDate } from "../helpers/auction-helpers";
 
 export const AuctionSearchBar = () => {
   const [query, setQuery] = useState<string>("");
@@ -14,6 +14,7 @@ export const AuctionSearchBar = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -52,7 +53,16 @@ export const AuctionSearchBar = () => {
     <div className="search-container" ref={containerRef}>
       <input
         type="text"
-        autoComplete="off"
+        autoComplete="username"
+        value={user.userName ?? ""}
+        readOnly
+        style={{
+          display: "none",
+        }}
+      />
+      <input
+        type="text"
+        autoComplete="new-password"
         placeholder="sök efter auktioner"
         onChange={(e) => setQuery(e.target.value)}
       ></input>
@@ -84,7 +94,9 @@ export const AuctionSearchBar = () => {
                   style={{ cursor: "pointer" }}
                 >
                   <td>{formatString(auction.title, 22)}</td>
-                  <td>{auction.endDateTime.substring(0, 10)}</td>
+                  <td>
+                    {toUtcDate(auction.endDateTime).toLocaleDateString("sv-SE")}
+                  </td>
                   <td>{auction.isOpen ? "Öppen" : "Avslutad"}</td>
                 </tr>
               ))}

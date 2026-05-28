@@ -311,6 +311,7 @@ namespace Auctionsite_Backend.Data.Repo
                 return new EditAuctionResponseDTO
                 {
                     Message = "success",
+                    Id = original.Id,
                     EditedAt = original.EditedAt
                 };
             }

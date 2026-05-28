@@ -30,3 +30,14 @@ export type NewAuctionPayload = {
   startDateTime: string;
   endDateTime: string;
 };
+
+export type EditAuctionPayload = {
+  id: number;
+  title: string;
+  description: string;
+  userId: number;
+  askingPrice: number;
+  imageUrl: string;
+  startDateTime: string;
+  endDateTime: string;
+};

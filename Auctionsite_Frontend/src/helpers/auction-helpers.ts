@@ -14,10 +14,14 @@ export const formatString = (text: string, length: number) => {
 };
 
 export const formatDateTime = (dateTime: string) => {
-  const d = new Date(dateTime);
+  const utcString = dateTime.endsWith("Z") ? dateTime : dateTime + "Z";
+  const d = new Date(utcString);
   const date = d.toLocaleDateString("sv-SE");
   const time = d
     .toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" })
     .replace(":", ".");
   return `${date} kl ${time}`;
 };
+
+export const toUtcDate = (dateTime: string) =>
+  new Date(dateTime.endsWith("Z") ? dateTime : dateTime + "Z");

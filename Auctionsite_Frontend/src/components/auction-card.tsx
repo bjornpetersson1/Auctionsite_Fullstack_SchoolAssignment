@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Auction, Bid } from "../types/auctionTypes";
 import { useNavigate } from "react-router-dom";
-import { formatMsToDate, formatString } from "../helpers/auction-helpers";
+import {
+  formatMsToDate,
+  formatString,
+  toUtcDate,
+} from "../helpers/auction-helpers";
 
 export const AuctionCard = ({
   auction,
@@ -17,7 +21,7 @@ export const AuctionCard = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeRemaining(new Date(auction.endDateTime).getTime() - Date.now());
+      setTimeRemaining(toUtcDate(auction.endDateTime).getTime() - Date.now());
     }, 1000);
 
     return () => clearInterval(interval);

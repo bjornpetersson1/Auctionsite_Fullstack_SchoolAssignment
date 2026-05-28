@@ -3,7 +3,7 @@ import { updatePassword } from "../api/authAPI";
 import { useAuth } from "../context/auth-context";
 import { type Auction } from "../types/auctionTypes";
 import { getMyAuctions } from "../api/auctionAPI";
-import { formatString } from "../helpers/auction-helpers";
+import { formatString, toUtcDate } from "../helpers/auction-helpers";
 import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
@@ -76,11 +76,13 @@ export const ProfilePage = () => {
                 style={{ cursor: "pointer" }}
               >
                 <td>{formatString(auction.title, 22)}</td>
-                <td>{auction.endDateTime.substring(0, 10)}</td>
+                <td>
+                  {toUtcDate(auction.endDateTime).toLocaleDateString("sv-SE")}
+                </td>
                 <td>
                   {auction.isOpen
                     ? "Öppen"
-                    : new Date(auction.startDateTime) > new Date()
+                    : toUtcDate(auction.startDateTime) > new Date()
                       ? "Kommande"
                       : "Avslutad"}
                 </td>
@@ -109,7 +111,7 @@ export const ProfilePage = () => {
         placeholder="Bekräfta nytt lösenord"
         onChange={(e) => setConfirmNewPassword(e.target.value)}
       ></input>
-      <button onClick={handleNewPassword}>Byt lösenord</button>
+      <button onClick={handleNewPassword}>Uppdatera lösenord</button>
       <p>{response}</p>
     </div>
   );

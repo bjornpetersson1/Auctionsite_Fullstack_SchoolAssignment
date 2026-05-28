@@ -1,4 +1,7 @@
-import type { NewAuctionPayload } from "../types/auctionTypes";
+import type {
+  EditAuctionPayload,
+  NewAuctionPayload,
+} from "../types/auctionTypes";
 import { type ApiFetch } from "./client";
 
 export const getAuctionList = async (
@@ -89,4 +92,15 @@ export const getMyAuctions = async (fetchWithAuth: ApiFetch) => {
   });
 
   return result?.auctions ?? [];
+};
+
+export const putEditAuction = async (
+  fetchWithAuth: ApiFetch,
+  auction: EditAuctionPayload,
+) => {
+  const result = await fetchWithAuth(`/api/auctions`, {
+    method: "PUT",
+    body: JSON.stringify(auction),
+  });
+  return result;
 };

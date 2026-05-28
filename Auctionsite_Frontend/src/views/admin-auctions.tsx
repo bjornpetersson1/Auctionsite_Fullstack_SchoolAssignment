@@ -8,6 +8,8 @@ import { useAuth } from "../context/auth-context";
 import type { Auction } from "../types/auctionTypes";
 import { getNameById } from "../api/authAPI";
 import { AdminNavbar } from "../components/admin-header";
+import { useNavigate } from "react-router-dom";
+import { toUtcDate } from "../helpers/auction-helpers";
 
 export const AdminAuctionsList = () => {
   const { fetchWithAuth } = useAuth();
@@ -16,6 +18,7 @@ export const AdminAuctionsList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [userNames, setUserNames] = useState<Record<number, string>>({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -65,7 +68,7 @@ export const AdminAuctionsList = () => {
     <div>
       <AdminNavbar />
       <p>{error}</p>
-      <table>
+      <table className="admin-auctions">
         <thead>
           <tr>
             <th>Id</th>
@@ -78,11 +81,17 @@ export const AdminAuctionsList = () => {
         </thead>
         <tbody>
           {auctions.map((auction) => (
-            <tr key={auction.id}>
+            <tr
+              key={auction.id}
+              onClick={() => navigate(`/auctions/${auction.id}`)}
+              style={{ cursor: "pointer" }}
+            >
               <td>{auction.id}</td>
               <td>{auction.title}</td>
               <td>{userNames[auction.userId] ?? auction.userId}</td>
-              <td>{auction.endDateTime.substring(0, 10)}</td>
+              <td>
+                {toUtcDate(auction.endDateTime).toLocaleDateString("sv-SE")}
+              </td>
               <td>{auction.isOpen ? "Öppen" : "Stängd"}</td>
               <td>{auction.isActive ? "Aktiv" : "Inaktiv"}</td>
               <td>

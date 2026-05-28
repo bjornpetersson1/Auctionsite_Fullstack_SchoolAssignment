@@ -4,7 +4,7 @@ import { AuctionsList } from "./views/auctions-list";
 import { Navbar } from "./components/navigation-bar";
 import { AuctionDetails } from "./views/auction-details";
 import { Login } from "./views/login";
-import { AuctionCreate } from "./views/auction-create";
+import { AuctionCreateAndEdit } from "./views/auction-create-and-edit";
 import { Register } from "./views/register";
 import { AdminPage } from "./views/admin";
 import { AuthProvider } from "./context/auth-context";
@@ -24,7 +24,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/create-auction" element={<AuctionCreate />} />
+            <Route
+              path="/create-auction/:id?"
+              element={<AuctionCreateAndEdit />}
+            />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<ProfilePage />} />

@@ -106,7 +106,7 @@ namespace Auctionsite_Backend.Controllers
             if (userId == 0) return BadRequest("No user found");
             var userRole = User.FindFirstValue(ClaimTypes.Role);
 
-            if (userRole == "admin" || userId == auction.AuctionCreaterId)
+            if (userRole == "admin" || userId == auction.UserId)
             {
                 var response = await _auctionsService.EditAuction(auction);
                 return Ok(response);
