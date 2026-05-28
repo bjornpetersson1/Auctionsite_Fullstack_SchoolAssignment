@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/auth-context";
 import { AdminRoute, ProtectedRoute } from "./components/protected-routes";
 import { AdminAuctionsList } from "./views/admin-auctions";
 import { AdminUsersList } from "./views/admin-user-list";
+import { ProfilePage } from "./views/profile";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/create-auction" element={<AuctionCreate />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminPage />} />

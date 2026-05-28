@@ -32,5 +32,10 @@ namespace Auctionsite_Backend.Core.Service
         {
             return await _authRepo.GetAllUsers();
         }
+
+        public async Task<bool> UpdatePassword(int userId, string oldPassword, string newPassword)
+        {
+            return await _authRepo.UpdatePassword(userId, oldPassword, newPassword);
+        }
     }
 }

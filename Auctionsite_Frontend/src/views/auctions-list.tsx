@@ -16,7 +16,6 @@ export const AuctionsList = () => {
   useEffect(() => {
     const fetchBids = async () => {
       var data = await getAllBids(fetchWithAuth);
-      console.log(data);
       setBids(data.bids);
     };
     const fetchAuctions = async () => {

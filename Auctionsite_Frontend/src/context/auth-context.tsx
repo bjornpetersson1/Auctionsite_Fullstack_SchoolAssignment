@@ -83,11 +83,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error("Du har inte behörighet att utföra denna åtgärd");
+      }
       const body = await response.json().catch(() => null);
       throw new Error(body?.message ?? `HTTP ${response.status}`);
     }
 
-    return response.json();
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
   };
   return (
     <AuthContext.Provider value={{ user, login, logout, fetchWithAuth }}>
