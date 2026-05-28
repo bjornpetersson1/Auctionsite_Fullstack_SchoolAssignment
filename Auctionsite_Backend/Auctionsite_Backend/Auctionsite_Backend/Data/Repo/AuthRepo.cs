@@ -140,7 +140,7 @@ namespace Auctionsite_Backend.Data.Repo
 
             if (BC.Verify(oldPassword, userResponse.PasswordHash))
             {
-                BC.HashPassword(newPassword, workFactor: 12);
+                userResponse.PasswordHash = BC.HashPassword(newPassword, workFactor: 12);
                 await dbContext.SaveChangesAsync();
                 return true;
             }
