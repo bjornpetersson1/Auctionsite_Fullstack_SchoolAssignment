@@ -198,6 +198,10 @@ tr:nth-child(even) td {
   line-height: 16px;
 }
 
+.delete-button {
+  background: var(--color-strawberry);
+}
+
 @media (max-width: 600px) {
   .search-container {
     display: flex;

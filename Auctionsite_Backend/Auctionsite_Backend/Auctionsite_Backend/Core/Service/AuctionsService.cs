@@ -66,5 +66,11 @@ namespace Auctionsite_Backend.Core.Service
             var response = await _auctionsRepo.GetMyAuctions(userId);
             return response;
         }
+
+        public async Task<bool> DeleteLatestBid(int auctionId, int userId)
+        {
+            var response = await _auctionsRepo.DeleteLatestBid(auctionId, userId);
+            return response;
+        }
     }
 }

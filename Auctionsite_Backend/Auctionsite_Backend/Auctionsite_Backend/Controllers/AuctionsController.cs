@@ -128,11 +128,11 @@ namespace Auctionsite_Backend.Controllers
                 var response = await _auctionsService.DeleteAuction(auction);
                 if(response.IsDeleted)
                 {
-                    return Ok(response.Message);
+                    return Ok(new { message = response.Message });
                 }
                 else
                 {
-                    return NotFound(response.Message);
+                    return NotFound(new { message = response.Message });
                 }
             }
             else return BadRequest("You are not authorized to delete this auction");
@@ -162,6 +162,20 @@ namespace Auctionsite_Backend.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return 0;
             else return int.Parse(userId);
+        }
+
+        [Authorize("UserOnly")]
+        [RequireActiveUser]
+        [HttpDelete("{auctionId}/bids")]
+        public async Task<IActionResult> DeleteLatestBid(int auctionId)
+        {
+            var userId = GetUserIdFromJWT();
+            var result = await _auctionsService.DeleteLatestBid(auctionId, userId);
+            if (!result) return BadRequest(new
+            {
+                message = "Kunde inte ångra budet"
+            });
+            return Ok();
         }
     }
 }

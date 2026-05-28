@@ -38,6 +38,7 @@ export const Login = () => {
       <input
         type="text"
         placeholder="Email"
+        // autoComplete="email"
         onChange={(e) => setLoginLoad({ ...loginLoad, email: e.target.value })}
       ></input>
       <h4>Password</h4>
