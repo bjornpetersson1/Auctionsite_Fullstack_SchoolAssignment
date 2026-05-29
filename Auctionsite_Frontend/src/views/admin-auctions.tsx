@@ -96,7 +96,10 @@ export const AdminAuctionsList = () => {
               <td>{auction.isActive ? "Aktiv" : "Inaktiv"}</td>
               <td>
                 <button
-                  onClick={() => toggleIsActive(auction.id, auction.isActive)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleIsActive(auction.id, auction.isActive);
+                  }}
                 >
                   Aktivera/Inaktivera
                 </button>
