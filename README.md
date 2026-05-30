@@ -52,7 +52,7 @@
 
   The API will be available at https://localhost:7xxx and Swagger UI at /swagger.
 
-  Frontend
+  ### Frontend
 
   1. Navigate to the frontend project:
   cd Auctionsite_Frontend
@@ -63,8 +63,10 @@
 
   The app will be available at https://localhost:5173.
 
-  Project Structure
+  ### Project Structure
 
-  Auctionsite_Fullstack/
-  ├── Auctionsite_Backend/   # ASP.NET Core Web API
+  Auctionsite_Fullstack/  
+  
+  ├── Auctionsite_Backend/   # ASP.NET Core Web API  
+  
   └── Auctionsite_Frontend/  # React + TypeScript client
